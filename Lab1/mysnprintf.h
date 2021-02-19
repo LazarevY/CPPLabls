@@ -4,7 +4,7 @@
 #include <cstdarg>
 
 int concat_str(char *dist, const char * src, int maxLen =-1);
-int resize_string(char *old_ptr, char *new_ptr, int newSize);
+int resize_string(char *old_ptr, char **new_ptr, int newSize);
 
 int my_snprintf(char * s, size_t n, const char * format, ...);
 

@@ -90,3 +90,47 @@ void Lab1Tests::test007()
     QVERIFY2(!strcmp(current, expected), expected);
     QVERIFY2(stat1 == stat2, QString("%1 vs %2").arg(stat1).arg(stat2).toStdString().c_str());
 }
+
+void Lab1Tests::test008()
+{
+    const char *format = "String: %s";
+    int len = 5;
+    char current[50] = "";
+    char expected[50] = "";
+    int stat1 = snprintf(expected, len, format,"1111111111111111111111111111111");
+    int stat2 = my_snprintf(current, len, format, "1111111111111111111111111111111");
+    QVERIFY2(!strcmp(current, expected), expected);
+    QVERIFY2(stat1 == stat2, QString("%1 vs %2").arg(stat1).arg(stat2).toStdString().c_str());
+}
+
+void Lab1Tests::test009()
+{
+    const char *format = "ww %v";
+    int len = 5;
+    char current[50] = "";
+    char expected[50] = "";
+    int stat1 = snprintf(expected, len, format,"122");
+    int stat2 = my_snprintf(current, len, format, "122");
+    QVERIFY2(!strcmp(current, expected), expected);
+    QVERIFY2(stat1 == stat2, QString("%1 vs %2").arg(stat1).arg(stat2).toStdString().c_str());
+}
+
+void Lab1Tests::test010()
+{
+    const char *format = "ww %v";
+    int len = 5;
+    char current[50] = "";
+    char expected[50] = "";
+    int stat1 = snprintf(expected, len, format,"122");
+    int stat2 = my_snprintf(current, len, format, "122");
+    QVERIFY2(!strcmp(current, expected), expected);
+    QVERIFY2(stat1 == stat2, QString("%1 vs %2").arg(stat1).arg(stat2).toStdString().c_str());
+}
+
+void Lab1Tests::test011()
+{
+    const char *format = "ww %v";
+    int len = 5;
+    int stat = my_snprintf(nullptr, len, format, "122");
+    QVERIFY(stat < 0);
+}

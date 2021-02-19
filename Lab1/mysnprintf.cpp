@@ -11,7 +11,9 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
 
     int startSize = strlen(format) * 2;
     int currentSize = startSize;
-    char *stringBuffer = new char[startSize](); //origin function always return length
+    char *stringBuffer = new char[startSize](); //origin function always return
+                                                //The number of characters that would have been written if n had been
+                                                //sufficiently large, not counting the terminating null character.
 
 
     char *stringBufferPointer = stringBuffer;
@@ -25,7 +27,7 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
 
     va_start(argsList, format);
 
-    while (*formatPointer != '\0' &&  n > 1){
+    while (*formatPointer != '\0' &&  n > 1){ //>1 - reserve
 
         const char *strValue;
         char bufferSymbol;
@@ -67,14 +69,14 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
                     isCorrectSpecifier = false;
                     int countSymbols = strlen(strValue);
                     if (symCounter + countSymbols > currentSize){
-                        currentSize += startSize;
+                        currentSize += (symCounter + countSymbols);
                         char *swapBuffer;
-                        resize_string(stringBuffer, swapBuffer, currentSize);
+                        resize_string(stringBuffer, &swapBuffer, currentSize);
                         delete[] stringBuffer;
                         stringBuffer = swapBuffer;
                         stringBufferPointer = (stringBuffer + symCounter);
                     }
-                    concat_str(stringBufferPointer, strValue, fmaxl(0, n -1));
+                    concat_str(stringBufferPointer, strValue, fmaxl(0, n -1)); // -1 because reserve for \0
                     stringBufferPointer += countSymbols;
                     symCounter += countSymbols;
                 }
@@ -90,7 +92,7 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
         formatPointer++;
 
     }
-    strncpy(s, stringBuffer, fmaxl(0, n -1));
+    strncpy(s, stringBuffer, fmaxl(0, n -1)); // -1 because reserve for \0
     *(s + static_cast<int>(fminl(symCounter + 1, n))) = '\0';
     delete[] stringBuffer;
 
@@ -115,12 +117,12 @@ int concat_str(char *dist, const char *src, int maxLen)
 
 }
 
-int resize_string(char *old_ptr, char *new_ptr, int newSize)
+int resize_string(char *old_ptr, char **new_ptr, int newSize)
 {
 
-    new_ptr = new char[newSize];
+    *new_ptr = new char[newSize];
 
-    strcpy(new_ptr, old_ptr);
+    strcpy(*new_ptr, old_ptr);
 
     return 0;
 }

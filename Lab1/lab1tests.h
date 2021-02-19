@@ -19,6 +19,10 @@ private slots:
     void test005();
     void test006();
     void test007();
+    void test008();
+    void test009();
+    void test010();
+    void test011();
 private:
 
 };
