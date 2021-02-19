@@ -105,7 +105,7 @@ void Lab1Tests::test008()
 
 void Lab1Tests::test009()
 {
-    const char *format = "ww %v";
+    const char *format = "ww %k";
     int len = 5;
     char current[50] = "";
     char expected[50] = "";

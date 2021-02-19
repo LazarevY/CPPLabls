@@ -9,11 +9,10 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
     if (!s || !format)
         return -1;
 
-    int startSize = strlen(format) * 2;
-    int currentSize = startSize;
-    char *stringBuffer = new char[startSize](); //origin function always return
-                                                //The number of characters that would have been written if n had been
-                                                //sufficiently large, not counting the terminating null character.
+
+    char *stringBuffer = s;
+    int maxLen = n;
+    int intN = n;
 
 
     char *stringBufferPointer = stringBuffer;
@@ -27,7 +26,7 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
 
     va_start(argsList, format);
 
-    while (*formatPointer != '\0' &&  n > 1){ //>1 - reserve
+    while (*formatPointer != '\0'){ //>1 - reserve
 
         const char *strValue;
         char bufferSymbol;
@@ -68,23 +67,22 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
                 if (isCorrectSpecifier){
                     isCorrectSpecifier = false;
                     int countSymbols = strlen(strValue);
-                    if (symCounter + countSymbols > currentSize){
-                        currentSize += (symCounter + countSymbols);
-                        char *swapBuffer;
-                        resize_string(stringBuffer, &swapBuffer, currentSize);
-                        delete[] stringBuffer;
-                        stringBuffer = swapBuffer;
-                        stringBufferPointer = (stringBuffer + symCounter);
+                    if (intN > 1){
+                        int toWrite = fmin(countSymbols, intN - 1);
+                        int writed = concat_str(stringBufferPointer, strValue, toWrite);
+                        stringBufferPointer += writed;
+                        intN -= writed;
                     }
-                    concat_str(stringBufferPointer, strValue, fmaxl(0, n -1)); // -1 because reserve for \0
-                    stringBufferPointer += countSymbols;
                     symCounter += countSymbols;
                 }
             }
             else {
-                *stringBufferPointer = *formatPointer;
-                stringBufferPointer++;
                 symCounter++;
+                if (intN > 1){
+                    *stringBufferPointer = *formatPointer;
+                    stringBufferPointer++;
+                    intN--;
+                }
             }
         }
 
@@ -92,9 +90,7 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
         formatPointer++;
 
     }
-    strncpy(s, stringBuffer, fmaxl(0, n -1)); // -1 because reserve for \0
-    *(s + static_cast<int>(fminl(symCounter + 1, n))) = '\0';
-    delete[] stringBuffer;
+    *(s + static_cast<int>(fminl(symCounter + 1, maxLen - 1))) = '\0';
 
     return symCounter;
 }
