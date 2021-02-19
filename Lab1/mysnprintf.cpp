@@ -10,12 +10,11 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
         return -1;
 
 
-    char *stringBuffer = s;
     int maxLen = n;
-    int intN = n;
+    int intN = n; // because unsigned 0 - 1 = very big positive value
 
 
-    char *stringBufferPointer = stringBuffer;
+    char *stringBufferPointer = s;
     const char *formatPointer = format;
     bool isEscapeDetected = false;
     bool isCorrectSpecifier = false;
