@@ -11,7 +11,7 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
 
     int startSize = strlen(format) * 2;
     int currentSize = startSize;
-    char *stringBuffer = new char[startSize]();
+    char *stringBuffer = new char[startSize](); //origin function always return length
 
 
     char *stringBufferPointer = stringBuffer;
@@ -91,7 +91,8 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
 
     }
     strncpy(s, stringBuffer, fmaxl(0, n -1));
-    *(s + static_cast<int>(fminl(symCounter + 1S, n))) = '\0';
+    *(s + static_cast<int>(fminl(symCounter + 1, n))) = '\0';
+    delete[] stringBuffer;
 
     return symCounter;
 }
