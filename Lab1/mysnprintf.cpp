@@ -25,7 +25,7 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
 
     va_start(argsList, format);
 
-    while (*formatPointer != '\0'){ //>1 - reserve
+    while (*formatPointer != '\0'){
 
         const char *strValue;
         char bufferSymbol;
@@ -90,6 +90,7 @@ int my_snprintf(char *s, size_t n, const char *format,  ...)
 
     }
     *(s + static_cast<int>(fminl(symCounter + 1, maxLen - 1))) = '\0';
+    va_end(argsList);
 
     return symCounter;
 }

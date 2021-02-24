@@ -134,3 +134,10 @@ void Lab1Tests::test011()
     int stat = my_snprintf(nullptr, len, format, "122");
     QVERIFY(stat < 0);
 }
+
+void Lab1Tests::test012()
+{
+    int len = 5;
+    int stat = my_snprintf(nullptr, len, nullptr);
+    QVERIFY(stat < 0);
+}

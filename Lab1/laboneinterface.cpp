@@ -24,7 +24,8 @@ void LabOneInterface::runDemo()
     std::cin >> symbol;
 
     std::cout << "Enter your word: ";
-    std::cin >> str;
+    std::cin.ignore();
+    std::cin.getline(str, 63);
 
     char formatted[256] = "";
 
@@ -38,7 +39,7 @@ void LabOneInterface::runDemo()
 
     code = snprintf(formatted, limit, "Integer : %d, char: %c, string: %s", value, symbol, str);
 
-    std::cout << "Std function result: '" << formatted << "' with code " << code << std::endl;
+    std::cout << "Std function result:    '" << formatted << "' with code " << code << std::endl;
 
 
 
@@ -56,7 +57,7 @@ void LabOneInterface::runDemo()
 
     code = snprintf(formatted, limit, "Integer : %d, char: %c, string: %s", value, symbol, str);
 
-    std::cout << "Std function result: '" << formatted << "' with code " << code << std::endl;
+    std::cout << "Std function result:    '" << formatted << "' with code " << code << std::endl;
 
 
 
