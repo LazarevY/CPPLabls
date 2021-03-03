@@ -1,12 +1,16 @@
 #include "field.h"
 
-
 Field::Field(size_t width, size_t height) :
     m_width(width), m_height(height)
 {
 //    if (!checkDimension(width, height))
 //        //exception
-    m_fieldStore = new int[m_width * m_height + 1]();
+    m_fieldStore = new FieldCell[m_width * m_height + 1]();
+    int cellCounter = 0;
+    for (auto *cell = m_fieldStore; cell != m_endPtr; ++cell, cellCounter++){
+        cell->setX(cellCounter / width);
+        cell->setY(cellCounter % width);
+    }
     m_endPtr = m_fieldStore + (m_width * m_height);
 }
 
@@ -21,12 +25,12 @@ void Field::resize(size_t width, size_t height)
         delete [] m_fieldStore;
         m_width = width;
         m_height = height;
-        m_fieldStore = new int[m_width * m_height + 1];
+        m_fieldStore = new FieldCell[m_width * m_height + 1];
         m_endPtr = m_fieldStore + (m_width * m_height);
     }
 }
 
-int &Field::operator()(size_t row, size_t column)
+FieldCell &Field::operator()(size_t row, size_t column)
 {
 //    if (!checkBounds(row, column))
 //        //exception

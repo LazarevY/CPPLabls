@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 
+#include "fieldcell.h"
+
 class Field
 {
 public:
@@ -16,15 +18,15 @@ public:
 
     void resize(size_t width, size_t height);
 
-    int& operator()(size_t row, size_t column);
+    FieldCell& operator()(size_t row, size_t column);
 
 private:
     bool checkDimension(size_t width, size_t height);
     bool checkBounds(size_t row, size_t column);
 
 private:
-    int *m_fieldStore;
-    int *m_endPtr;
+    FieldCell *m_fieldStore;
+    FieldCell *m_endPtr;
     size_t m_width;
     size_t m_height;
 };
