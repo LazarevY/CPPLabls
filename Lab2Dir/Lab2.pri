@@ -6,6 +6,7 @@ INCLUDEPATH *= $$clean_path($$PWD/../)
 
 include($$PWD/Objects/Objects.pri)
 include($$PWD/Utils/Vector.pri)
+include($$PWD/Logic/Logic.pri)
 
 
 }
