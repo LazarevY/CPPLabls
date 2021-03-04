@@ -14,12 +14,21 @@ public:
     Cottager(
             int speed,
             const IntegerVector &position,
-            const IntegerVector &direction);
+            const IntegerVector &direction,
+            int damageRadius);
 
     // BaseObject interface
-public:
+    int damageRaduis() const;
+    void setDamageRaduis(int damageRaduis);
+
     int digitCode() override;
+    Path currentPath() const;
+    void setCurrentPath(const Path &currentPath);
+
+
+private:
     Path m_currentPath;
+    int m_damageRaduis;
 };
 
 #endif // COTTAGER_H

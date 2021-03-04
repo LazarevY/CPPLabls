@@ -8,12 +8,14 @@ Cottager::Cottager()
 Cottager::Cottager(
         int speed,
         const IntegerVector &position,
-        const IntegerVector &direction)
+        const IntegerVector &direction,
+        int damageRadius)
     :
     MovingObject(
         speed,
         position,
-        direction)
+        direction),
+  m_damageRaduis(damageRadius)
 {
 
 }
@@ -22,4 +24,24 @@ Cottager::Cottager(
 int Cottager::digitCode()
 {
     return 0x2;
+}
+
+Path Cottager::currentPath() const
+{
+    return m_currentPath;
+}
+
+void Cottager::setCurrentPath(const Path &currentPath)
+{
+    m_currentPath = currentPath;
+}
+
+int Cottager::damageRaduis() const
+{
+    return m_damageRaduis;
+}
+
+void Cottager::setDamageRaduis(int damageRaduis)
+{
+    m_damageRaduis = damageRaduis;
 }
