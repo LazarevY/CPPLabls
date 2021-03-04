@@ -5,6 +5,7 @@ CONFIG += LOGIC_PRI
 INCLUDEPATH *= $$clean_path($$PWD/../)
 
 include($$PWD/../Objects/Objects.pri)
+include($$PWD/../ObjectsHandlers/ObjectsHandlers.pri)
 
 
 HEADERS += \

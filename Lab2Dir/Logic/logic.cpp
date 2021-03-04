@@ -37,3 +37,9 @@ void Logic::removeObject(BaseObject *o)
     m_objectsMap.take(o->id());
     m_field->remove(o);
 }
+
+void Logic::processObject(BaseObject *o)
+{
+    for (auto handler: m_handlersMap.values(typeid(o).hash_code()))
+        handler->process(o);
+}

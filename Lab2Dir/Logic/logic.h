@@ -2,9 +2,12 @@
 #define LOGIC_H
 
 #include <QMap>
+#include <QMultiMap>
 
 #include "field.h"
 #include "Objects/baseobject.h"
+#include "ObjectsHandlers/baseobjecthandler.h"
+#include "ObjectsHandlers/objecthandler.h"
 
 class Logic
 {
@@ -29,6 +32,13 @@ public:
    void moveObject(BaseObject *o, const IntegerVector &toCell);
    void removeObject(BaseObject *o);
 
+   template<typename T>
+   void registerHandler(ObjectHandler<T> *handler){
+        m_handlersMap.insertMulti(
+                    typeid (T).hash_code(),
+                    handler);
+   }
+
 private:
     template<typename P, typename D>
     QVector<D *> fillterByType(const QVector<P*> in){
@@ -41,10 +51,13 @@ private:
                 return filetered;
     }
 
+    void processObject(BaseObject *o);
+
 private:
     Field *m_field;
     QMap<int, BaseObject *> m_objectsMap;
     int m_idCounter = 1;
+    QMultiMap<size_t, BaseObjectHandler *> m_handlersMap;
 };
 
 template<>

@@ -13,7 +13,9 @@ QMAKE_CXXFLAGS += -std=c++17
 SOURCES += \
         main.cpp
 
-#include($$PWD/Lab1/Lab1.pri)
+
+include($$PWD/Lab2Dir/ObjectsHandlers/ObjectsHandlers.pri)
+include($$PWD/Lab2Dir/Logic/Logic.pri)
 include($$PWD/Lab2Dir/Lab2.pri)
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
