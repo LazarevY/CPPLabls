@@ -5,6 +5,12 @@ BaseObject::BaseObject()
 
 }
 
+BaseObject::BaseObject(const IntegerVector &position) :
+    m_position(position)
+{
+
+}
+
 int BaseObject::id() const
 {
     return m_id;
@@ -13,4 +19,14 @@ int BaseObject::id() const
 void BaseObject::setId(int id)
 {
     m_id = id;
+}
+
+IntegerVector BaseObject::position() const
+{
+    return m_position;
+}
+
+void BaseObject::setPosition(const IntegerVector &position)
+{
+    m_position = position;
 }

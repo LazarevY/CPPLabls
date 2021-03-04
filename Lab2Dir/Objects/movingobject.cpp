@@ -9,22 +9,13 @@ MovingObject::MovingObject(
         int speed,
         const IntegerVector &position,
         const IntegerVector &direction) :
+    BaseObject(position),
     m_speed(speed),
-    m_position(position),
     m_direction(direction)
 {
 
 }
 
-IntegerVector MovingObject::position() const
-{
-    return m_position;
-}
-
-void MovingObject::setPosition(const IntegerVector &position)
-{
-    m_position = position;
-}
 
 IntegerVector MovingObject::direction() const
 {
