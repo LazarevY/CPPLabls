@@ -6,12 +6,13 @@ Field::Field(size_t width, size_t height) :
 //    if (!checkDimension(width, height))
 //        //exception
     m_fieldStore = new FieldCell[m_width * m_height + 1]();
+    m_endPtr = m_fieldStore + (m_width * m_height);
     int cellCounter = 0;
     for (auto *cell = m_fieldStore; cell != m_endPtr; ++cell, cellCounter++){
-        cell->setX(cellCounter / width);
-        cell->setY(cellCounter % width);
+        cell->setCoords(IntegerVector(
+                            cellCounter / width,
+                            cellCounter % width));
     }
-    m_endPtr = m_fieldStore + (m_width * m_height);
 }
 
 Field::~Field()
@@ -35,6 +36,27 @@ FieldCell &Field::operator()(size_t row, size_t column)
 //    if (!checkBounds(row, column))
 //        //exception
     return m_fieldStore[row * m_width + column];
+}
+
+FieldCell &Field::operator()(const IntegerVector &coords)
+{
+    return (*this)(coords.x(), coords.y());
+}
+
+void Field::add(const IntegerVector &coords, BaseObject *o)
+{
+    (*this)(coords).add(o);
+}
+
+void Field::remove(BaseObject *o)
+{
+    (*this)(o->position()).remove(o);
+}
+
+void Field::move(const IntegerVector &toCoords, BaseObject *o)
+{
+    remove(o);
+    add(toCoords, o);
 }
 
 bool Field::checkDimension(size_t width, size_t height)

@@ -1,29 +1,14 @@
 #include "fieldcell.h"
 
-FieldCell::FieldCell(int x, int y) :
-    m_x(x), m_y(y)
+FieldCell::FieldCell(const IntegerVector &coords) :
+    m_coords(coords)
 {
 
 }
 
-FieldCell::FieldCell() : FieldCell(0, 0)
+FieldCell::FieldCell()
 {
 
-}
-
-int FieldCell::x() const
-{
-    return m_x;
-}
-
-int FieldCell::y() const
-{
-    return m_y;
-}
-
-void FieldCell::setY(int y)
-{
-    m_y = y;
 }
 
 void FieldCell::remove(BaseObject *o)
@@ -41,7 +26,13 @@ QVector<BaseObject *> FieldCell::getAllObjects()
     return m_objectsMap.values().toVector();
 }
 
-void FieldCell::setX(int x)
+IntegerVector FieldCell::getCoords() const
 {
-    m_x = x;
+    return m_coords;
 }
+
+void FieldCell::setCoords(const IntegerVector &Coords)
+{
+    m_coords = Coords;
+}
+

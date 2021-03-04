@@ -2,6 +2,7 @@
 #define FIELDCELL_H
 
 #include "Objects/baseobject.h"
+#include "Utils/integervector.h"
 
 #include <QVector>
 #include <QMap>
@@ -9,14 +10,9 @@
 class FieldCell
 {
 public:
-    FieldCell(int x, int y);
+    FieldCell(const IntegerVector & coords);
     FieldCell();
 
-    int x() const;
-    void setX(int x);
-
-    int y() const;
-    void setY(int y);
 
     void remove(BaseObject *o);
     void add(BaseObject *o);
@@ -24,8 +20,11 @@ public:
     QVector<BaseObject *> getAllObjects();
 
 
+    IntegerVector getCoords() const;
+    void setCoords(const IntegerVector &Coords);
+
 private:
-    int m_x, m_y;
+    IntegerVector m_coords;
     QMap<int, BaseObject *> m_objectsMap;
 };
 

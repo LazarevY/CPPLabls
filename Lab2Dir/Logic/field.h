@@ -19,6 +19,11 @@ public:
     void resize(size_t width, size_t height);
 
     FieldCell& operator()(size_t row, size_t column);
+    FieldCell& operator()(const IntegerVector &coords);
+
+    void add(const IntegerVector &coords, BaseObject *o);
+    void remove(BaseObject * o);
+    void move(const IntegerVector &toCoords, BaseObject *o);
 
 private:
     bool checkDimension(size_t width, size_t height);
