@@ -27,3 +27,13 @@ void MovingObject::setDirection(const IntegerVector &direction)
     m_direction = direction;
 }
 
+int MovingObject::speed() const
+{
+    return m_speed;
+}
+
+void MovingObject::setSpeed(int speed)
+{
+    m_speed = speed;
+}
+

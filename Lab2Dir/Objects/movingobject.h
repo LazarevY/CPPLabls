@@ -3,7 +3,7 @@
 
 #include "baseobject.h"
 
-#include "Utils/integervector.h"
+#include "Utils/Vector/integervector.h"
 
 
 class MovingObject: public BaseObject
@@ -14,6 +14,9 @@ public:
 
     IntegerVector direction() const;
     void setDirection(const IntegerVector &direction);
+
+    int speed() const;
+    void setSpeed(int speed);
 
 protected:
     int m_speed;

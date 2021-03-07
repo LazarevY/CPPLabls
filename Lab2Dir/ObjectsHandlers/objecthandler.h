@@ -21,7 +21,7 @@ public:
 
     }
 
-    virtual void process(T * o)
+    virtual void processObject(T * o)
     {
 
     }

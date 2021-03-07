@@ -21,6 +21,10 @@ public:
     IntegerVector operator+(const IntegerVector &other);
     IntegerVector operator-(const IntegerVector &other);
     IntegerVector operator-() const;
+    IntegerVector operator+=(const IntegerVector &other);
+
+    IntegerVector operator*(int value);
+    bool operator==(const IntegerVector &other);
 
 private:
     int m_x, m_y;

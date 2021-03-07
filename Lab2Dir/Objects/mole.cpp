@@ -49,16 +49,6 @@ void Mole::setIsChild(bool isChild)
     m_isChild = isChild;
 }
 
-Path Mole::currentPath() const
-{
-    return m_currentPath;
-}
-
-void Mole::setCurrentPath(const Path &currentPath)
-{
-    m_currentPath = currentPath;
-}
-
 int Mole::currentTicksUnderGround() const
 {
     return m_currentTicksUnderGround;
@@ -97,4 +87,46 @@ int Mole::damageRadius() const
 void Mole::setDamageRadius(int damageRadius)
 {
     m_damageRadius = damageRadius;
+}
+
+Mole::State Mole::state() const
+{
+    return m_state;
+}
+
+void Mole::setState(const State &state)
+{
+    m_state = state;
+}
+
+bool Mole::isAnipodeGender(const Mole::Gender &g)
+{
+    return m_gender != g;
+}
+
+int Mole::frozeTicks() const
+{
+    return m_frozeTicks;
+}
+
+void Mole::setFrozeTicks(int frozeTicks)
+{
+    m_frozeTicks = frozeTicks;
+}
+
+void Mole::requestState(Mole::State state)
+{
+    m_requestState = state;
+}
+
+bool Mole::haveRequestState() const
+{
+    return m_requestState != Mole::State::None;
+}
+
+Mole::State Mole::acceptRequestState()
+{
+    State s = m_requestState;
+    m_requestState = State::None;
+    return s;
 }

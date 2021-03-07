@@ -2,7 +2,7 @@
 #define FIELDCELL_H
 
 #include "Objects/baseobject.h"
-#include "Utils/integervector.h"
+#include "Utils/Vector/integervector.h"
 
 #include <QVector>
 #include <QMap>

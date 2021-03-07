@@ -1,7 +1,7 @@
 #ifndef BASEOBJECT_H
 #define BASEOBJECT_H
 
-#include "Utils/integervector.h"
+#include "Utils/Vector/integervector.h"
 
 
 class BaseObject
@@ -9,6 +9,7 @@ class BaseObject
 public:
     BaseObject();
     BaseObject(const IntegerVector &position);
+    virtual ~BaseObject();
 
     /**
      * @brief The number is power of tho, unique for even type of object

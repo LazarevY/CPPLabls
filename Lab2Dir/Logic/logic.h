@@ -3,16 +3,20 @@
 
 #include <QMap>
 #include <QMultiMap>
+#include <QStack>
 
 #include "field.h"
 #include "Objects/baseobject.h"
 #include "ObjectsHandlers/baseobjecthandler.h"
 #include "ObjectsHandlers/objecthandler.h"
 
+using Path = QStack<IntegerVector>;
+
 class Logic
 {
 public:
     Logic(Field *field);
+    ~Logic();
 
     template<typename ObjectType>
     QVector<ObjectType *> getAllObjectsInCell(const IntegerVector &coords){
@@ -27,10 +31,26 @@ public:
     }
 
 
-   void addObject(BaseObject *o, const IntegerVector &position);
-   void addObject(BaseObject *o);
-   void moveObject(BaseObject *o, const IntegerVector &toCell);
+   void addObject(BaseObject *o, const IntegerVector &position, bool resouceCapture = false);
+   void addObject(BaseObject *o, bool resouceCapture = false);
+   void moveObject(BaseObject *o, const IntegerVector &position);
    void removeObject(BaseObject *o);
+
+   Path getPath(const IntegerVector &from, const IntegerVector &to);
+
+
+   template<typename T>
+   T* createObject(){
+       if (!std::is_base_of_v<BaseObject, T>()){
+           return nullptr;
+       }
+       T *o = new T();
+       BaseObject *base = dynamic_cast<BaseObject *>(o);
+       addObject(base, true);
+   }
+
+
+   IntegerVector fixCoords(const IntegerVector &coords);
 
    template<typename T>
    void registerHandler(ObjectHandler<T> *handler){
@@ -56,6 +76,7 @@ private:
 private:
     Field *m_field;
     QMap<int, BaseObject *> m_objectsMap;
+    QMap<int, BaseObject *> m_resourceCapturedObjects;
     int m_idCounter = 1;
     QMultiMap<size_t, BaseObjectHandler *> m_handlersMap;
 };

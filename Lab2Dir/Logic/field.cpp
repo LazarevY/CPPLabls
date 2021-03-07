@@ -1,4 +1,5 @@
 #include "field.h"
+#include <QtMath>
 
 Field::Field(size_t width, size_t height) :
     m_width(width), m_height(height)
@@ -57,6 +58,13 @@ void Field::move(const IntegerVector &toCoords, BaseObject *o)
 {
     remove(o);
     add(toCoords, o);
+}
+
+IntegerVector Field::fixSize(const IntegerVector &v)
+{
+    return IntegerVector(
+                qMin(static_cast<int>(qMax(0, v.x())), static_cast<int>(m_width - 1)),
+                qMin(static_cast<int>(qMax(0, v.y())), static_cast<int>(m_height - 1)));
 }
 
 bool Field::checkDimension(size_t width, size_t height)

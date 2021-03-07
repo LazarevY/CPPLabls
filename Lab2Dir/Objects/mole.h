@@ -13,6 +13,11 @@ public:
     {
         Male, Female
     };
+
+    enum class State{
+        Underground, OnGround, Froze, None
+    };
+
     Mole();
     Mole(int speed,
          const IntegerVector &position,
@@ -30,9 +35,6 @@ public:
     bool isChild() const;
     void setIsChild(bool isChild);
 
-    Path currentPath() const;
-    void setCurrentPath(const Path &currentPath);
-
     int currentTicksUnderGround() const;
     void setCurrentTicksUnderGround(int currentTicksUnderGround);
 
@@ -45,14 +47,28 @@ public:
     int damageRadius() const;
     void setDamageRadius(int damageRadius);
 
+    State state() const;
+    void setState(const State &state);
+
+    bool isAnipodeGender(const Gender &g);
+
+    int frozeTicks() const;
+    void setFrozeTicks(int frozeTicks);
+
+    void requestState(State state);
+    bool haveRequestState() const;
+    State acceptRequestState();
+
 private:
     Gender m_gender;
+    State m_state = State::Underground;
+    State m_requestState = State::None;
     bool m_isChild = false;
-    Path m_currentPath;
     int m_currentTicksUnderGround = 0;
     int m_currentTicksOnGround = 0;
     int m_childTicks = 0;
-    int m_damageRadius;
+    int m_frozeTicks = 0;
+    int m_damageRadius = 1;
 };
 
 #endif // MOLE_H

@@ -11,6 +11,11 @@ BaseObject::BaseObject(const IntegerVector &position) :
 
 }
 
+BaseObject::~BaseObject()
+{
+
+}
+
 int BaseObject::id() const
 {
     return m_id;

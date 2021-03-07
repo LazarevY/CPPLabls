@@ -58,3 +58,18 @@ IntegerVector IntegerVector::operator-() const
 {
     return IntegerVector(-m_x, -m_y);
 }
+
+IntegerVector IntegerVector::operator +=(const IntegerVector &other)
+{
+    return *this + other;
+}
+
+IntegerVector IntegerVector::operator*(int value)
+{
+    return IntegerVector(m_x * value, m_y * value);
+}
+
+bool IntegerVector::operator==(const IntegerVector &other)
+{
+    return m_x == other.m_x && m_y == other.m_y;
+}

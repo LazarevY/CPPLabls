@@ -25,6 +25,8 @@ public:
     void remove(BaseObject * o);
     void move(const IntegerVector &toCoords, BaseObject *o);
 
+    IntegerVector fixSize(const IntegerVector &v);
+
 private:
     bool checkDimension(size_t width, size_t height);
     bool checkBounds(size_t row, size_t column);
