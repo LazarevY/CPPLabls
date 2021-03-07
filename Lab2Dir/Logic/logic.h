@@ -38,6 +38,22 @@ public:
 
    Path getPath(const IntegerVector &from, const IntegerVector &to);
 
+   template<typename T>
+   T *findNearestObject(const IntegerVector &pos){
+       if (!std::is_base_of_v<BaseObject, T>()){
+           return nullptr;
+       }
+
+       BaseObject *object = nullptr;
+
+       for (auto o : getAll<T>()){
+           BaseObject *base = dynamic_cast<BaseObject *>(o);
+           if (!object || (pos - base->position()).lenghtSqr() < (pos - object->position()).lenghtSqr())
+               object = base;
+       }
+       return dynamic_cast<T *>(object);
+   }
+
 
    template<typename T>
    T* createObject(){
