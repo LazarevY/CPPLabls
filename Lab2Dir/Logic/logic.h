@@ -41,7 +41,7 @@ public:
 
    template<typename T>
    T *findNearestObject(const IntegerVector &pos){
-       if (!std::is_base_of_v<BaseObject, T>()){
+       if (!std::is_base_of<BaseObject, T>::value){
            return nullptr;
        }
 
