@@ -13,6 +13,7 @@
 
 using Path = QStack<IntegerVector>;
 
+
 class Logic
 {
 public:
@@ -20,9 +21,9 @@ public:
     ~Logic();
 
     template<typename ObjectType>
-    QVector<ObjectType *> getAllObjectsInCell(const IntegerVector &coords){
+    QVector<ObjectType *> getAllObjectsInCell(const IntegerVector &coords, const std::function<bool(ObjectType *m)> &filter = [](ObjectType *){return true;}){
         auto objects = getAllObjectsInCell<BaseObject>(coords);
-        return fillterByType<BaseObject, ObjectType>(objects);
+        return fillterByType<BaseObject, ObjectType>(objects, filter);
     }
 
 
@@ -40,7 +41,7 @@ public:
    Path getPath(const IntegerVector &from, const IntegerVector &to);
 
    template<typename T>
-   T *findNearestObject(const IntegerVector &pos, const std::function<bool(T *m)> &filter = [](){return true;}){
+   T *findNearestObject(const IntegerVector &pos, const std::function<bool(T *m)> &filter = [](T *){return true;}){
        if (!std::is_base_of<BaseObject, T>::value){
            return nullptr;
        }
@@ -78,11 +79,11 @@ public:
 
 private:
     template<typename P, typename D>
-    QVector<D *> fillterByType(const QVector<P*> in){
+    QVector<D *> fillterByType(const QVector<P*> in, const std::function<bool(D *m)> &filter = [](D *){return true;}){
         QVector<D *> filetered = QVector<D *>();
                 for (auto o: in){
                     D * casted  = dynamic_cast<D *>(o);
-                    if (casted)
+                    if (casted && filter(casted))
                         filetered.append(casted);
                 }
                 return filetered;
@@ -99,7 +100,7 @@ private:
 };
 
 template<>
-inline QVector<BaseObject *> Logic::getAllObjectsInCell<BaseObject>(const IntegerVector &coords){
+inline QVector<BaseObject *> Logic::getAllObjectsInCell<BaseObject>(const IntegerVector &coords, const std::function<bool(BaseObject *m)> &){
     return m_field->operator()(coords).getAllObjects();
 }
 
