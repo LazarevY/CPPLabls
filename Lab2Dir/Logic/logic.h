@@ -40,7 +40,7 @@ public:
    Path getPath(const IntegerVector &from, const IntegerVector &to);
 
    template<typename T>
-   T *findNearestObject(const IntegerVector &pos){
+   T *findNearestObject(const IntegerVector &pos, const std::function<bool(T *m)> &filter = [](){return true;}){
        if (!std::is_base_of<BaseObject, T>::value){
            return nullptr;
        }
@@ -49,7 +49,7 @@ public:
 
        for (auto o : getAll<T>()){
            BaseObject *base = dynamic_cast<BaseObject *>(o);
-           if (!object || (pos - base->position()).lenghtSqr() < (pos - object->position()).lenghtSqr())
+           if ((!object || (pos - base->position()).lenghtSqr() < (pos - object->position()).lenghtSqr()) && filter(o))
                object = base;
        }
        return dynamic_cast<T *>(object);
