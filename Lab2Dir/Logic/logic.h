@@ -4,6 +4,7 @@
 #include <QMap>
 #include <QMultiMap>
 #include <QStack>
+#include <type_traits>
 
 #include "field.h"
 #include "Objects/baseobject.h"
@@ -57,7 +58,7 @@ public:
 
    template<typename T>
    T* createObject(){
-       if (!std::is_base_of_v<BaseObject, T>()){
+       if (!std::is_base_of<BaseObject, T>::value){
            return nullptr;
        }
        T *o = new T();
