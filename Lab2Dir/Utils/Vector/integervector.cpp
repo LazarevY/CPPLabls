@@ -44,12 +44,12 @@ IntegerVector IntegerVector::normalized()
     return newVector;
 }
 
-IntegerVector IntegerVector::operator+(const IntegerVector &other)
+IntegerVector IntegerVector::operator+(const IntegerVector &other) const
 {
     return IntegerVector(m_x + other.m_x, m_y + other.m_y);
 }
 
-IntegerVector IntegerVector::operator-(const IntegerVector &other)
+IntegerVector IntegerVector::operator-(const IntegerVector &other) const
 {
     return *this + (-other);
 }
@@ -72,4 +72,9 @@ IntegerVector IntegerVector::operator*(int value)
 bool IntegerVector::operator==(const IntegerVector &other)
 {
     return m_x == other.m_x && m_y == other.m_y;
+}
+
+double IntegerVector::lenghtSqr() const
+{
+    return m_x * m_x + m_y * m_y;
 }

@@ -18,13 +18,15 @@ public:
 
     IntegerVector normalized();
 
-    IntegerVector operator+(const IntegerVector &other);
-    IntegerVector operator-(const IntegerVector &other);
+    IntegerVector operator+(const IntegerVector &other) const;
+    IntegerVector operator-(const IntegerVector &other) const;
     IntegerVector operator-() const;
     IntegerVector operator+=(const IntegerVector &other);
 
     IntegerVector operator*(int value);
     bool operator==(const IntegerVector &other);
+
+    double lenghtSqr() const;
 
 private:
     int m_x, m_y;
