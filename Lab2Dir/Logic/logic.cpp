@@ -43,12 +43,19 @@ void Logic::removeObject(BaseObject *o)
     }
 
     m_objectsMap.take(o->id());
+    for (auto h: m_handlersMap.values(typeid (o).hash_code()))
+        h->process(o);
     m_field->remove(o);
 }
 
 Path Logic::getPath(const IntegerVector &from, const IntegerVector &to)
 {
     return Path();
+}
+
+void Logic::removeHarvest(int count)
+{
+    m_harvestCount -= count;
 }
 
 IntegerVector Logic::fixCoords(const IntegerVector &coords)

@@ -40,6 +40,8 @@ public:
 
    Path getPath(const IntegerVector &from, const IntegerVector &to);
 
+   void removeHarvest(int count = 1);
+
    template<typename T>
    T *findNearestObject(const IntegerVector &pos, const std::function<bool(T *m)> &filter = [](T *){return true;}){
        if (!std::is_base_of<BaseObject, T>::value){
@@ -77,6 +79,13 @@ public:
                     handler);
    }
 
+   template<typename T>
+   void registerRemoveHandler(ObjectHandler<T> *handler){
+        m_removeHandlersMap.insertMulti(
+                    typeid (T).hash_code(),
+                    handler);
+   }
+
 private:
     template<typename P, typename D>
     QVector<D *> fillterByType(const QVector<P*> in, const std::function<bool(D *m)> &filter = [](D *){return true;}){
@@ -93,10 +102,14 @@ private:
 
 private:
     Field *m_field;
+    int m_idCounter = 1;
+
     QMap<int, BaseObject *> m_objectsMap;
     QMap<int, BaseObject *> m_resourceCapturedObjects;
-    int m_idCounter = 1;
     QMultiMap<size_t, BaseObjectHandler *> m_handlersMap;
+    QMultiMap<size_t, BaseObjectHandler *> m_removeHandlersMap;
+
+    int m_harvestCount = 0;
 };
 
 template<>
