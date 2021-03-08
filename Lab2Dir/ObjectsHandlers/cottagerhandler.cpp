@@ -35,7 +35,7 @@ void CottagerHandler::move(Cottager *o, const IntegerVector &to)
 
 bool CottagerHandler::checkMoles(Cottager *o)
 {
-    int maxKills = 2;
+    int maxKills = 1;
     IntegerVector radius = IntegerVector(o->damageRaduis(),o->damageRaduis());
 
     IntegerVector min = m_logic->fixCoords(o->position() - radius);
@@ -57,5 +57,5 @@ bool CottagerHandler::checkMoles(Cottager *o)
                 }
         }
 
-    return maxKills < 2;
+    return maxKills < 1;
 }
