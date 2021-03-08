@@ -12,11 +12,13 @@ HEADERS += \
     $$PWD/molehanlder.h \
     $$PWD/objecthandler.h \
     $$PWD/baseobjecthandler.h \
-    $$PWD/cottagerhandler.h
+    $$PWD/cottagerhandler.h \
+    $$PWD/harvestremovehandler.h
 
 SOURCES += \
     $$PWD/molehanlder.cpp \
     $$PWD/objecthandler.cpp \
     $$PWD/baseobjecthandler.cpp \
-    $$PWD/cottagerhandler.cpp
+    $$PWD/cottagerhandler.cpp \
+    $$PWD/harvestremovehandler.cpp
 }
