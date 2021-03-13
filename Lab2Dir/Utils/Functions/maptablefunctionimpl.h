@@ -10,7 +10,7 @@ class MapTableFunctionImpl : public TableFunction<R, P>
 {
 public:
     MapTableFunctionImpl(const std::function<R (const P &)> &defaultFuction =
-            [](){
+            [](const P &){
         return R();
     }) : TableFunction<R, P>(defaultFuction)
     {
@@ -19,7 +19,7 @@ public:
 
     R calculate(const P &key) override
     {
-        return m_functionMap.value(key, m_defaultFunction(key));
+        return m_functionMap.value(key, this->m_defaultFunction(key));
     }
 
     void setValueFor(const P &key, const R &value) override
