@@ -10,6 +10,8 @@ include($$PWD/Logic/Logic.pri)
 include($$PWD/Objects/Objects.pri)
 include($$PWD/Utils/Vector/Vector.pri)
 include($$PWD/Utils/Functions/Functions.pri)
+include($$PWD/Render/Rendering.pri)
+include($$PWD/Logging/Logging.pri)
 
 
 }
