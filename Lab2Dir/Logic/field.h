@@ -20,12 +20,17 @@ public:
 
     FieldCell& operator()(size_t row, size_t column);
     FieldCell& operator()(const IntegerVector &coords);
+    const FieldCell &operator()(size_t row, size_t column) const;
 
     void add(const IntegerVector &coords, BaseObject *o);
     void remove(BaseObject * o);
     void move(const IntegerVector &toCoords, BaseObject *o);
 
     IntegerVector fixSize(const IntegerVector &v);
+
+    size_t width() const;
+
+    size_t height() const;
 
 private:
     bool checkDimension(size_t width, size_t height);

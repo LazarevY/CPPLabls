@@ -44,6 +44,11 @@ FieldCell &Field::operator()(const IntegerVector &coords)
     return (*this)(coords.x(), coords.y());
 }
 
+const FieldCell &Field::operator()(size_t row, size_t column) const
+{
+    return m_fieldStore[row * m_width + column];
+}
+
 void Field::add(const IntegerVector &coords, BaseObject *o)
 {
     (*this)(coords).add(o);
@@ -74,5 +79,15 @@ bool Field::checkDimension(size_t width, size_t height)
 
 bool Field::checkBounds(size_t row, size_t column)
 {
-    return row < m_width && column < m_height;
+    return row < m_height && column < m_width;
+}
+
+size_t Field::height() const
+{
+    return m_height;
+}
+
+size_t Field::width() const
+{
+    return m_width;
 }

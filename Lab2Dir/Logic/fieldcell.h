@@ -23,6 +23,8 @@ public:
     IntegerVector getCoords() const;
     void setCoords(const IntegerVector &Coords);
 
+    int cellDigitCode() const;
+
 private:
     IntegerVector m_coords;
     QMap<int, BaseObject *> m_objectsMap;

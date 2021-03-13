@@ -36,3 +36,12 @@ void FieldCell::setCoords(const IntegerVector &Coords)
     m_coords = Coords;
 }
 
+int FieldCell::cellDigitCode() const
+{
+    int code = 0;
+
+    for (auto a: m_objectsMap)
+        code |= a->digitCode();
+    return code;
+}
+
