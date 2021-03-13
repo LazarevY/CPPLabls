@@ -1,6 +1,7 @@
 #include "logic.h"
 #include "Objects/harvest.h"
 #include "Objects/mole.h"
+#include "Objects/cottager.h"
 
 Logic::Logic(Field *field) :
     m_field(field)
@@ -35,6 +36,7 @@ void Logic::moveObject(BaseObject *o, const IntegerVector &toCell)
     }
 
     m_field->move(toCell, o);
+    o->setPosition(toCell);
 
 }
 
@@ -70,7 +72,7 @@ void Logic::startGame()
 
 bool Logic::isGameOver()
 {
-    return !m_harvestCount;
+    return !(m_harvestCount && getAll<Mole>().size());
 }
 
 bool Logic::isWin()
@@ -82,7 +84,12 @@ void Logic::update()
 {
     for (auto *o : m_objectsMap)
         for (auto *h : m_handlersMap.values(typeid (*o).hash_code()))
-            h->process(o);
+            if (!dynamic_cast<Cottager *>(o))
+                h->process(o);
+
+    for (auto c: getAll<Cottager>())
+        for (auto *h : m_handlersMap.values(typeid (*c).hash_code()))
+                h->process(c);
 }
 
 IntegerVector Logic::fixCoords(const IntegerVector &coords)
@@ -94,6 +101,11 @@ void Logic::processObject(BaseObject *o)
 {
     for (auto handler: m_handlersMap.values(typeid(o).hash_code()))
         handler->process(o);
+}
+
+int Logic::getHarvestCount() const
+{
+    return m_harvestCount;
 }
 
 Field *Logic::getField() const

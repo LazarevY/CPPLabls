@@ -75,6 +75,7 @@ public:
        T *o = new T();
        BaseObject *base = dynamic_cast<BaseObject *>(o);
        addObject(base, true);
+       return o;
    }
 
 
@@ -95,6 +96,8 @@ public:
    }
 
    Field *getField() const;
+
+   int getHarvestCount() const;
 
    private:
    template<typename P, typename D>
