@@ -20,10 +20,10 @@ void FieldRenderImpl::renderField(const Field *field)
 
     size_t strSymCounter = 0;
 
-    for (size_t row = 0; row < h; ++row, ++strSymCounter){
-        for (size_t col = 0; col < w; ++col, ++strSymCounter)
+    for (size_t y = 0; y < h; ++y, ++strSymCounter){
+        for (size_t x = 0; x < w; ++x, ++strSymCounter)
             fieldStr[strSymCounter] =
-                    m_digitCodeToCharFunction->calculate(field->operator()(row, col).cellDigitCode());
+                    m_digitCodeToCharFunction->calculate(field->operator()(x, y).cellDigitCode());
         fieldStr[strSymCounter] = '\n';
     }
 
