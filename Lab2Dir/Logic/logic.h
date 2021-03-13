@@ -42,6 +42,14 @@ public:
 
    void removeHarvest(int count = 1);
 
+   void startGame();
+
+   bool isGameOver();
+
+   bool isWin();
+
+   void update();
+
    template<typename T>
    T *findNearestObject(const IntegerVector &pos, const std::function<bool(T *m)> &filter = [](T *){return true;}){
        if (!std::is_base_of<BaseObject, T>::value){
@@ -86,8 +94,10 @@ public:
                     handler);
    }
 
-private:
-    template<typename P, typename D>
+   Field *getField() const;
+
+   private:
+   template<typename P, typename D>
     QVector<D *> fillterByType(const QVector<P*> in, const std::function<bool(D *m)> &filter = [](D *){return true;}){
         QVector<D *> filetered = QVector<D *>();
                 for (auto o: in){

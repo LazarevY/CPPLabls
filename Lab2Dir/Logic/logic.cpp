@@ -1,4 +1,6 @@
 #include "logic.h"
+#include "Objects/harvest.h"
+#include "Objects/mole.h"
 
 Logic::Logic(Field *field) :
     m_field(field)
@@ -50,12 +52,37 @@ void Logic::removeObject(BaseObject *o)
 
 Path Logic::getPath(const IntegerVector &from, const IntegerVector &to)
 {
-    return Path();
+    Path p;
+    p.push(to);
+    p.push(IntegerVector(to.x(), from.y()));
+    return p;
 }
 
 void Logic::removeHarvest(int count)
 {
     m_harvestCount -= count;
+}
+
+void Logic::startGame()
+{
+    m_harvestCount = getAll<Harvest>().size();
+}
+
+bool Logic::isGameOver()
+{
+    return !m_harvestCount;
+}
+
+bool Logic::isWin()
+{
+    return !getAll<Mole>().size();
+}
+
+void Logic::update()
+{
+    for (auto *o : m_objectsMap)
+        for (auto *h : m_handlersMap.values(typeid (*o).hash_code()))
+            h->process(o);
 }
 
 IntegerVector Logic::fixCoords(const IntegerVector &coords)
@@ -67,4 +94,9 @@ void Logic::processObject(BaseObject *o)
 {
     for (auto handler: m_handlersMap.values(typeid(o).hash_code()))
         handler->process(o);
+}
+
+Field *Logic::getField() const
+{
+    return m_field;
 }
