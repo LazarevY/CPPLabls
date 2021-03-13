@@ -26,7 +26,15 @@ Mole::Mole(int speed,
 
 int Mole::digitCode()
 {
-    return 0x4;
+    if (m_isChild)
+        return 6; // 4 + 2
+    if (m_state == State::OnGround)
+        return 68; // 64 + 4
+    if (m_gender == Gender::Male)
+        return 12; // 8 + 4
+    if (m_gender == Gender::Female)
+        return 20;
+    return 4;
 }
 
 Mole::Gender Mole::gender() const

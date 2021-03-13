@@ -23,7 +23,7 @@ Cottager::Cottager(
 
 int Cottager::digitCode()
 {
-    return 0x2;
+    return 0x1;
 }
 
 Path Cottager::currentPath() const

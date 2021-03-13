@@ -9,5 +9,5 @@ Harvest::Harvest(const IntegerVector &pos) :
 
 int Harvest::digitCode()
 {
-    return 1;
+    return 32;
 }
