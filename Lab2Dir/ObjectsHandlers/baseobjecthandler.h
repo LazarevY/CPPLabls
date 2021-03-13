@@ -9,6 +9,8 @@ public:
     BaseObjectHandler();
 
     virtual void process(BaseObject *o) = 0;
+
+    virtual size_t objectTypeHashCode() = 0;
 };
 
 #endif // BASEOBJECTHANDLER_H

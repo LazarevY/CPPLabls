@@ -25,6 +25,11 @@ public:
     {
 
     }
+
+    size_t objectTypeHashCode() override
+    {
+        return typeid (T).hash_code();
+    }
 };
 
 #endif // OBJECTHANDLER_H
