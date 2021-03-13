@@ -24,13 +24,13 @@ void CottagerHandler::processObject(Cottager *o)
 
 void CottagerHandler::move(Cottager *o, const IntegerVector &to)
 {
-    auto dest = m_logic->getPath(o->position(), to).pop();
+    auto needStep = m_logic->getPath(o->position(), to).pop() - o->position();
 
-    auto canStep = (dest - o->position()).normalized() * o->speed();
+    auto canStep = needStep.normalized() * o->speed();
 
-    auto pos = qMin(dest, canStep);
+    auto step = qMin(needStep, canStep);
 
-    m_logic->moveObject(o, pos);
+    m_logic->moveObject(o, m_logic->fixCoords(o->position() + step));
 }
 
 bool CottagerHandler::checkMoles(Cottager *o)
@@ -44,9 +44,6 @@ bool CottagerHandler::checkMoles(Cottager *o)
     for (int y = max.y(); y >= min.y() && maxKills; --y)
         for (int x = min.x(); x <= max.x() && maxKills; ++x){
             auto current = IntegerVector(x,y);
-
-            if (o->position() == current)
-                continue;
 
             auto moles = m_logic->getAllObjectsInCell<Mole>(current);
 

@@ -1,5 +1,6 @@
 #include "molehanlder.h"
 #include "Objects/harvest.h"
+#include "Random/randomgenerator.h"
 
 MoleHanlder::MoleHanlder(Logic *logic) :
     m_logic(logic)
@@ -12,6 +13,9 @@ void MoleHanlder::processObject(Mole *o)
 {
     if (processRequestedState(o)){
 
+    }
+    else if (o->isChild()){
+        childStatehandle(o);
     }
     else {
         switch (o->state()) {
@@ -32,6 +36,8 @@ void MoleHanlder::undergroundStateHandle(Mole *o)
 {
     int undergroundTicks = o->currentTicksUnderGround();
     o->setCurrentTicksUnderGround(undergroundTicks + 1);
+    if(!o->canBeFroze())
+        o->setTickToCanFroze(o->tickToCanFroze() - 1);
 
     auto antipodeMole = checkAntiGenderMole(o);
     if (antipodeMole){
@@ -64,6 +70,9 @@ void MoleHanlder::onGroundStateHandle(Mole *o)
      o->setCurrentTicksOnGround(onGroundTicks + 1);
     int transitionProbability = m_ongroundChangeStateFunc->calculate(onGroundTicks);
 
+    if(!o->canBeFroze())
+        o->setTickToCanFroze(o->tickToCanFroze() - 1);
+
     if (m_probabilityChecker.check(transitionProbability)){
         o->setState(Mole::State::Underground);
         o->setCurrentTicksUnderGround(0);
@@ -75,7 +84,7 @@ void MoleHanlder::onGroundStateHandle(Mole *o)
         IntegerVector min = m_logic->fixCoords(o->position() - radius);
         IntegerVector max = m_logic->fixCoords(o->position() + radius);
 
-        int maxDestroyCount = QRandomGenerator().bounded(1, 2);
+        int maxDestroyCount = RandomGenerator::getNewRandom().bounded(1,2);
 
         for (int y = max.y(); y >= min.y() && maxDestroyCount; --y)
             for (int x = min.x(); x <= max.x() && maxDestroyCount; ++x){
@@ -99,6 +108,7 @@ void MoleHanlder::frozeStateHandle(Mole *o)
 {
     if (o->frozeTicks() >= 2){
         o->setState(Mole::State::Underground);
+        o->setTickToCanFroze(5);
         if (o->gender() == Mole::Gender::Female){
             Mole* child = m_logic->createObject<Mole>();
             auto gender = m_probabilityChecker.check(50) ? Mole::Gender::Female : Mole::Gender::Male;
@@ -126,11 +136,14 @@ void MoleHanlder::childStatehandle(Mole *o)
     }
     else{
         move(o);
+        o->setChildTicks(childTicks + 1);
     }
 }
 
 Mole* MoleHanlder::checkAntiGenderMole(Mole *o)
 {
+    if (!o->canBeFroze())
+        return nullptr;
 
     IntegerVector radius = IntegerVector(1,1);
 
@@ -172,8 +185,8 @@ bool MoleHanlder::processRequestedState(Mole *o)
 void MoleHanlder::move(Mole *o)
 {
     IntegerVector dir = o->direction();
-    auto g = QRandomGenerator();
     if (m_probabilityChecker.check(50)){
+        auto g = RandomGenerator::getNewRandom();
         dir = IntegerVector(g.bounded(-1, 1), g.bounded(-1, 1));
         if (dir == IntegerVector(0,0)){
             dir.setX(1);
@@ -183,7 +196,7 @@ void MoleHanlder::move(Mole *o)
 
     o->setDirection(dir);
 
-    IntegerVector pos = m_logic->fixCoords(dir * o->speed());
+    IntegerVector pos = m_logic->fixCoords(dir * o->speed() + o->position());
 
     m_logic->moveObject(o, pos);
 }

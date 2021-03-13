@@ -17,7 +17,7 @@ public:
     {
         auto casted = dynamic_cast<T *>(o);
         if (casted)
-            process(casted);
+            processObject(casted);
 
     }
 
