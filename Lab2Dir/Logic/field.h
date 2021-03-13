@@ -20,7 +20,7 @@ public:
 
     FieldCell& operator()(size_t row, size_t column);
     FieldCell& operator()(const IntegerVector &coords);
-    const FieldCell &operator()(size_t row, size_t column) const;
+    const FieldCell &operator()(size_t x, size_t y) const;
 
     void add(const IntegerVector &coords, BaseObject *o);
     void remove(BaseObject * o);

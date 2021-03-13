@@ -32,11 +32,11 @@ void Field::resize(size_t width, size_t height)
     }
 }
 
-FieldCell &Field::operator()(size_t row, size_t column)
+FieldCell &Field::operator()(size_t x, size_t y)
 {
 //    if (!checkBounds(row, column))
 //        //exception
-    return m_fieldStore[row * m_width + column];
+    return m_fieldStore[y * m_width + x];
 }
 
 FieldCell &Field::operator()(const IntegerVector &coords)
@@ -44,9 +44,9 @@ FieldCell &Field::operator()(const IntegerVector &coords)
     return (*this)(coords.x(), coords.y());
 }
 
-const FieldCell &Field::operator()(size_t row, size_t column) const
+const FieldCell &Field::operator()(size_t x, size_t y) const
 {
-    return m_fieldStore[row * m_width + column];
+    return m_fieldStore[y * m_width + x];
 }
 
 void Field::add(const IntegerVector &coords, BaseObject *o)
@@ -77,9 +77,9 @@ bool Field::checkDimension(size_t width, size_t height)
     return width && height;
 }
 
-bool Field::checkBounds(size_t row, size_t column)
+bool Field::checkBounds(size_t x, size_t y)
 {
-    return row < m_height && column < m_width;
+    return x < m_width && y < m_height;
 }
 
 size_t Field::height() const
