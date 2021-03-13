@@ -138,3 +138,18 @@ Mole::State Mole::acceptRequestState()
     m_requestState = State::None;
     return s;
 }
+
+int Mole::tickToCanFroze() const
+{
+    return m_tickToCanFroze;
+}
+
+void Mole::setTickToCanFroze(int tickToCanFroze)
+{
+    m_tickToCanFroze = tickToCanFroze;
+}
+
+bool Mole::canBeFroze() const
+{
+    return !m_tickToCanFroze;
+}

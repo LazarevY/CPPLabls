@@ -59,6 +59,11 @@ public:
     bool haveRequestState() const;
     State acceptRequestState();
 
+    int tickToCanFroze() const;
+    void setTickToCanFroze(int tickToCanFroze);
+
+    bool canBeFroze() const;
+
 private:
     Gender m_gender;
     State m_state = State::Underground;
@@ -69,6 +74,7 @@ private:
     int m_childTicks = 0;
     int m_frozeTicks = 0;
     int m_damageRadius = 1;
+    int m_tickToCanFroze = 2;
 };
 
 #endif // MOLE_H
