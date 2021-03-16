@@ -72,6 +72,17 @@ IntegerVector Field::fixSize(const IntegerVector &v)
                 qMin(static_cast<int>(qMax(0, v.y())), static_cast<int>(m_height - 1)));
 }
 
+IntegerVector Field::size() const
+{
+    return IntegerVector(m_width, m_height);
+}
+
+bool Field::inBounds(const IntegerVector &v) const
+{
+    return v.x() >= 0 && v.y() >= 0 &&
+            v.x() < static_cast<int>(m_width) && v.y() < static_cast<int>(m_height);
+}
+
 bool Field::checkDimension(size_t width, size_t height)
 {
     return width && height;

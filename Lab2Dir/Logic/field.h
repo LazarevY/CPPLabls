@@ -28,6 +28,10 @@ public:
 
     IntegerVector fixSize(const IntegerVector &v);
 
+    IntegerVector size() const;
+
+    bool inBounds(const IntegerVector &v) const;
+
     size_t width() const;
 
     size_t height() const;
