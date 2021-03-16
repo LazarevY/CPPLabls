@@ -32,6 +32,8 @@ public:
         return fillterByType<BaseObject, ObjectType>(m_objectsMap.values().toVector());
     }
 
+    IntegerVector fieldSize() const;
+
 
    void addObject(BaseObject *o, const IntegerVector &position, bool resouceCapture = false);
    void addObject(BaseObject *o, bool resouceCapture = false);
@@ -96,8 +98,10 @@ public:
    }
 
    Field *getField() const;
+   void setField(Field *field);
 
    int getHarvestCount() const;
+
 
    private:
    template<typename P, typename D>

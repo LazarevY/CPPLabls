@@ -13,6 +13,9 @@ public:
 public:
     void renderField(const Field *field) override;
 
+    Function<char, int> *digitCodeToCharFunction() const;
+    void setDigitCodeToCharFunction(Function<char, int> *digitCodeToCharFunction);
+
 private:
     Function<char, int> *m_digitCodeToCharFunction;
 };

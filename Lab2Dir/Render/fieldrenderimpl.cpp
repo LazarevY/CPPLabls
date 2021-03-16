@@ -10,8 +10,6 @@ FieldRenderImpl::FieldRenderImpl(Function<char, int> *digitCodeToCharFunction) :
 
 void FieldRenderImpl::renderField(const Field *field)
 {
-    system("clear");
-
     size_t w = field->width();
     size_t h = field->height();
     size_t strSize = (w + 1) * h + 1;
@@ -29,4 +27,14 @@ void FieldRenderImpl::renderField(const Field *field)
 
     std::cout << fieldStr << std::endl;
     delete [] fieldStr;
+}
+
+Function<char, int> *FieldRenderImpl::digitCodeToCharFunction() const
+{
+    return m_digitCodeToCharFunction;
+}
+
+void FieldRenderImpl::setDigitCodeToCharFunction(Function<char, int> *digitCodeToCharFunction)
+{
+    m_digitCodeToCharFunction = digitCodeToCharFunction;
 }

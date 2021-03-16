@@ -15,6 +15,11 @@ Logic::~Logic()
         delete kv.value();
 }
 
+IntegerVector Logic::fieldSize() const
+{
+    return m_field->size();
+}
+
 void Logic::addObject(BaseObject *o, const IntegerVector &position, bool resouceCapture)
 {
     o->setId(m_idCounter++);
@@ -50,6 +55,9 @@ void Logic::removeObject(BaseObject *o)
     for (auto h: m_handlersMap.values(typeid (o).hash_code()))
         h->process(o);
     m_field->remove(o);
+    if (m_resourceCapturedObjects.contains(o->id())){
+        delete m_resourceCapturedObjects.take(o->id());
+    }
 }
 
 Path Logic::getPath(const IntegerVector &from, const IntegerVector &to)
@@ -101,6 +109,11 @@ void Logic::processObject(BaseObject *o)
 {
     for (auto handler: m_handlersMap.values(typeid(o).hash_code()))
         handler->process(o);
+}
+
+void Logic::setField(Field *field)
+{
+    m_field = field;
 }
 
 int Logic::getHarvestCount() const
