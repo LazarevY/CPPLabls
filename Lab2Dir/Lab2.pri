@@ -12,6 +12,7 @@ include($$PWD/Utils/Vector/Vector.pri)
 include($$PWD/Utils/Functions/Functions.pri)
 include($$PWD/Render/Rendering.pri)
 include($$PWD/Logging/Logging.pri)
+include($$PWD/UI/UI.pri)
 
 
 }
