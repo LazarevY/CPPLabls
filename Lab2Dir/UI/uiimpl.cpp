@@ -15,10 +15,11 @@ int UIImpl::show()
     int counter = 0;
     m_logic->startGame();
 
-    system("clear");
+
 
 
     while(!m_isExit){
+        system("clear");
         std::cout << "Steps: " << counter << std::endl;
         loopAction();
         counter++;
@@ -55,6 +56,7 @@ void UIImpl::initLogic()
     std::cout << "And finally add a mole..." << std::endl;
     Mole *m = m_logic->createObject<Mole>();
     fill(*m);
+    m_logic->moveObject(m, m->position());
 
 
 
