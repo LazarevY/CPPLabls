@@ -43,6 +43,7 @@ private:
 private:
     FieldCell *m_fieldStore;
     FieldCell *m_endPtr;
+    QMap<int, IntegerVector> m_currentCoordMap;
     size_t m_width;
     size_t m_height;
 };

@@ -51,12 +51,14 @@ const FieldCell &Field::operator()(size_t x, size_t y) const
 
 void Field::add(const IntegerVector &coords, BaseObject *o)
 {
+    m_currentCoordMap[o->id()] = coords;
     (*this)(coords).add(o);
 }
 
 void Field::remove(BaseObject *o)
 {
-    (*this)(o->position()).remove(o);
+    (*this)(m_currentCoordMap[o->id()]).remove(o);
+    m_currentCoordMap.remove(o->id());
 }
 
 void Field::move(const IntegerVector &toCoords, BaseObject *o)
