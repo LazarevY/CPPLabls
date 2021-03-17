@@ -1,11 +1,18 @@
 #include "field.h"
 #include <QtMath>
 
+#include "GlobalContext/globalcontext.h"
+
 Field::Field(size_t width, size_t height) :
     m_width(width), m_height(height)
 {
-//    if (!checkDimension(width, height))
-//        //exception
+    if (!checkDimension(width, height))
+        GlobalContext::globalInstance()
+                ->reportFatal(QString(
+                                  "Cannot create field with dimension [%1x%2]")
+                              .arg(width)
+                              .arg(height));
+
     m_fieldStore = new FieldCell[m_width * m_height + 1]();
     m_endPtr = m_fieldStore + (m_width * m_height);
     int cellCounter = 0;
@@ -34,8 +41,8 @@ void Field::resize(size_t width, size_t height)
 
 FieldCell &Field::operator()(size_t x, size_t y)
 {
-//    if (!checkBounds(row, column))
-//        //exception
+    //    if (!checkBounds(row, column))
+    //        //exception
     return m_fieldStore[y * m_width + x];
 }
 

@@ -6,6 +6,7 @@ INCLUDEPATH *= $$clean_path($$PWD/../)
 
 include($$PWD/../Objects/Objects.pri)
 include($$PWD/../ObjectsHandlers/ObjectsHandlers.pri)
+include($$PWD/../GlobalContext/GlobalContext.pri)
 
 
 HEADERS += \
