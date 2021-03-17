@@ -35,7 +35,8 @@ void CottagerHandler::move(Cottager *o, const IntegerVector &to)
 
 bool CottagerHandler::checkMoles(Cottager *o)
 {
-    int maxKills = 1;
+    int canKill = 3;
+    int maxKills = canKill;
     IntegerVector radius = IntegerVector(o->damageRaduis(),o->damageRaduis());
 
     IntegerVector min = m_logic->fixCoords(o->position() - radius);
@@ -43,16 +44,17 @@ bool CottagerHandler::checkMoles(Cottager *o)
 
     for (int y = max.y(); y >= min.y() && maxKills; --y)
         for (int x = min.x(); x <= max.x() && maxKills; ++x){
+
             auto current = IntegerVector(x,y);
 
             auto moles = m_logic->getAllObjectsInCell<Mole>(current);
 
             for (auto mole: moles)
-                if (mole->state() == Mole::State::OnGround && maxKills){
+                if (mole->state() == Mole::State::OnGround && canKill){
                     m_logic->removeObject(mole);
-                    maxKills--;
+                    canKill--;
                 }
         }
 
-    return maxKills < 1;
+    return canKill < maxKills;
 }
