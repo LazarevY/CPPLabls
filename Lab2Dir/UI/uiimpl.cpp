@@ -193,9 +193,11 @@ void UIImpl::processMenu()
     std::cout << "1. Add mole" << std::endl;
     std::cout << "2. Add harvest" << std::endl;
     std::cout << "3. Make step" << std::endl;
+    std::cout << "4. Remove all moles from cell" << std::endl;
+    std::cout << "5. Remove all harvest from cell" << std::endl;
     std::cout << "0. Exit" << std::endl;
 
-    int action = getBoundedFromConsole(0, 3, "Input action: ");
+    int action = getBoundedFromConsole(0, 5, "Input action: ");
 
     switch (action) {
 
@@ -215,6 +217,18 @@ void UIImpl::processMenu()
     }
     case 3:{
         m_needUpdateLogic = true;
+        break;
+    }
+    case 4:{
+        IntegerVector cell = getPositionFromConsole();
+        removeAllObjectsFromCell<Mole>(cell);
+        m_needUpdateLogic = false;
+        break;
+    }
+    case 5:{
+        IntegerVector cell = getPositionFromConsole();
+        removeAllObjectsFromCell<Harvest>(cell);
+        m_needUpdateLogic = false;
         break;
     }
     case 0:{

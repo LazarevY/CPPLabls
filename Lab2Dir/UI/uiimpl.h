@@ -41,6 +41,12 @@ private:
     void loopAction();
     void processMenu();
 
+    template<typename T>
+    void removeAllObjectsFromCell(const IntegerVector &cell){
+        for (auto *o : m_logic->getAllObjectsInCell<T>(cell))
+            m_logic->removeObject(o);
+    }
+
 
 
 private:
