@@ -25,7 +25,8 @@ public:
     IntegerVector operator+=(const IntegerVector &other);
 
     IntegerVector operator*(int value);
-    bool operator==(const IntegerVector &other);
+    bool operator==(const IntegerVector &other) const;
+    bool operator!=(const IntegerVector &other) const;
 
     double lenghtSqr() const;
 

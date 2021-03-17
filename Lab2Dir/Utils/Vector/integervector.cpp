@@ -69,9 +69,14 @@ IntegerVector IntegerVector::operator*(int value)
     return IntegerVector(m_x * value, m_y * value);
 }
 
-bool IntegerVector::operator==(const IntegerVector &other)
+bool IntegerVector::operator==(const IntegerVector &other) const
 {
     return m_x == other.m_x && m_y == other.m_y;
+}
+
+bool IntegerVector::operator!=(const IntegerVector &other) const
+{
+    return m_x != other.m_x || m_y != other.m_y;
 }
 
 double IntegerVector::lenghtSqr() const
