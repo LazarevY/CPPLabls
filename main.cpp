@@ -17,9 +17,6 @@ void logicInit(Logic &logic);
 int main(int argc, char *argv[])
 {
 
-
-
-
     Logic logic(nullptr);
 
     MapTableFunctionImpl<int, int> *func  =  new MapTableFunctionImpl<int, int>();
@@ -52,15 +49,18 @@ int main(int argc, char *argv[])
     charMap.setValueFor(32, 'H');
 
     FieldRenderImpl render(&charMap);
-    UIImpl ui(&logic, &render);
-    ui.show();
 
-    return 0;
+    if (argc != 1 && !strcmp("--interactive", argv[1])){
+        UIImpl ui(&logic, &render);
+        ui.show();
+        return 0;
+    }
 
 
     Field field = Field(16, 16);
-    Cottager cottager(2, IntegerVector(0, 0), IntegerVector(1,0), 2);
-    Mole mole = Mole(2, IntegerVector(1,1), IntegerVector(1,0), Mole::Gender::Male, false, 2);
+    logic.setField(&field);
+    Cottager cottager(2, IntegerVector(8, 0), IntegerVector(1,0), 2);
+    Mole mole = Mole(2, IntegerVector(8,8), IntegerVector(1,0), Mole::Gender::Male, false, 2);
     Mole mole1 = Mole(2, IntegerVector(2,5), IntegerVector(1,0), Mole::Gender::Female, false, 2);
     Mole mole2 = Mole(2, IntegerVector(10,4), IntegerVector(1,0), Mole::Gender::Male, true, 2);
     Mole mole3 = Mole(2, IntegerVector(12,13), IntegerVector(1,0), Mole::Gender::Male, false, 2);
@@ -68,10 +68,10 @@ int main(int argc, char *argv[])
     Mole mole4 = Mole(2, IntegerVector(4, 4), IntegerVector(1,0), Mole::Gender::Male, false, 2);
 
     logic.addObject(&mole);
-    logic.addObject(&mole1);
-    logic.addObject(&mole2);
-    logic.addObject(&mole3);
-    logic.addObject(&mole4);
+//    logic.addObject(&mole1);
+//    logic.addObject(&mole2);
+//    logic.addObject(&mole3);
+//    logic.addObject(&mole4);
     logic.addObject(&cottager);
 
     for (int x = 0; x < 7; ++x)
@@ -84,8 +84,10 @@ int main(int argc, char *argv[])
     logic.startGame();
 
     while(!logic.isGameOver()){
-        QThread::msleep(200);
+
+        QThread::msleep(500);
         logic.update();
+        system("clear");
         render.renderField(logic.getField());
 
         std::cout << "steps: " << counter++ << std::endl;
