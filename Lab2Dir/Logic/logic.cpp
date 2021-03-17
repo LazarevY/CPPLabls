@@ -52,7 +52,7 @@ void Logic::removeObject(BaseObject *o)
     }
 
     m_objectsMap.take(o->id());
-    for (auto h: m_handlersMap.values(typeid (o).hash_code()))
+    for (auto h: m_removeHandlersMap.values(typeid (*o).hash_code()))
         h->process(o);
     m_field->remove(o);
     if (m_resourceCapturedObjects.contains(o->id())){
@@ -64,7 +64,9 @@ Path Logic::getPath(const IntegerVector &from, const IntegerVector &to)
 {
     Path p;
     p.push(to);
-    p.push(IntegerVector(to.x(), from.y()));
+    IntegerVector anglePoint = IntegerVector(to.x(), from.y());
+    if (from != anglePoint)
+        p.push(anglePoint);
     return p;
 }
 
@@ -90,14 +92,15 @@ bool Logic::isWin()
 
 void Logic::update()
 {
+    for (auto c: getAll<Cottager>())
+        for (auto *h : m_handlersMap.values(typeid (*c).hash_code()))
+                h->process(c);
+
     for (auto *o : m_objectsMap)
         for (auto *h : m_handlersMap.values(typeid (*o).hash_code()))
             if (!dynamic_cast<Cottager *>(o))
                 h->process(o);
 
-    for (auto c: getAll<Cottager>())
-        for (auto *h : m_handlersMap.values(typeid (*c).hash_code()))
-                h->process(c);
 }
 
 IntegerVector Logic::fixCoords(const IntegerVector &coords)
