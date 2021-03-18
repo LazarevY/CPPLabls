@@ -11,9 +11,6 @@
 #include "ObjectsHandlers/molehanlder.h"
 #include "UI/uiimpl.h"
 
-void logicInit(Logic &logic);
-
-
 int main(int argc, char *argv[])
 {
 
@@ -68,10 +65,10 @@ int main(int argc, char *argv[])
     Mole mole4 = Mole(2, IntegerVector(4, 4), IntegerVector(1,0), Mole::Gender::Male, false, 2);
 
     logic.addObject(&mole);
-//    logic.addObject(&mole1);
-//    logic.addObject(&mole2);
-//    logic.addObject(&mole3);
-//    logic.addObject(&mole4);
+    logic.addObject(&mole1);
+    logic.addObject(&mole2);
+    logic.addObject(&mole3);
+    logic.addObject(&mole4);
     logic.addObject(&cottager);
 
     for (int x = 0; x < 7; ++x)
@@ -99,24 +96,3 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void logicInit(Logic &logic){
-
-    MapTableFunctionImpl<int, int> *func  =  new MapTableFunctionImpl<int, int>();
-
-    func->setDefaultFuction([](const int& v){if (v < 0) return 0; else if(3 > 4) return 100; });
-    func->setValueFor(1, 5);
-    func->setValueFor(2, 30);
-    func->setValueFor(3, 70);
-
-    auto mH = new MoleHanlder(&logic);
-    mH->setChiildChangeStateFunc(func);
-    mH->setOngroundChangeStateFunc(func);
-    mH->setUndegroundChangeStateFunc(func);
-    logic.registerHandler(mH);
-
-    auto cH = new CottagerHandler(&logic);
-    logic.registerHandler(cH);
-
-    auto hrH = new HarvestRemoveHandler(&logic);
-    logic.registerRemoveHandler(hrH);
-}

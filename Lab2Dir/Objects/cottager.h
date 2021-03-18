@@ -17,7 +17,6 @@ public:
             const IntegerVector &direction,
             int damageRadius);
 
-    // BaseObject interface
     int damageRaduis() const;
     void setDamageRaduis(int damageRaduis);
 

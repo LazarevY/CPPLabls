@@ -6,20 +6,16 @@
 Field::Field(size_t width, size_t height) :
     m_width(width), m_height(height)
 {
-    if (!checkDimension(width, height))
+    if (!checkDimension(width, height)){
         GlobalContext::globalInstance()
                 ->reportFatal(QString(
                                   "Cannot create field with dimension [%1x%2]")
                               .arg(width)
                               .arg(height));
+        }
 
-    m_fieldStore = new FieldCell[m_width * m_height + 1]();
-    m_endPtr = m_fieldStore + (m_width * m_height);
-    int cellCounter = 0;
-    for (auto *cell = m_fieldStore; cell != m_endPtr; ++cell, cellCounter++){
-        cell->setCoords(IntegerVector(
-                            cellCounter / width,
-                            cellCounter % width));
+    else {
+        initField();
     }
 }
 
@@ -34,15 +30,26 @@ void Field::resize(size_t width, size_t height)
         delete [] m_fieldStore;
         m_width = width;
         m_height = height;
-        m_fieldStore = new FieldCell[m_width * m_height + 1];
-        m_endPtr = m_fieldStore + (m_width * m_height);
+        initField();
+    }
+    else {
+        GlobalContext::globalInstance()->reportError(
+                    QString(
+                        "Cannot resize field with dimension [%1x%2]")
+                    .arg(width)
+                    .arg(height));
     }
 }
 
 FieldCell &Field::operator()(size_t x, size_t y)
 {
-    //    if (!checkBounds(row, column))
-    //        //exception
+        if (!checkBounds(x, y))
+            GlobalContext::globalInstance()->reportError(
+                        QString(
+                            "Cannot out of bound coordinate [%1, %2]")
+                        .arg(x)
+                        .arg(y));
+
     return m_fieldStore[y * m_width + x];
 }
 
@@ -74,7 +81,7 @@ void Field::move(const IntegerVector &toCoords, BaseObject *o)
     add(toCoords, o);
 }
 
-IntegerVector Field::fixSize(const IntegerVector &v)
+IntegerVector Field::fixCoorsByFieldBounds(const IntegerVector &v)
 {
     return IntegerVector(
                 qMin(static_cast<int>(qMax(0, v.x())), static_cast<int>(m_width - 1)),
@@ -100,6 +107,18 @@ bool Field::checkDimension(size_t width, size_t height)
 bool Field::checkBounds(size_t x, size_t y)
 {
     return x < m_width && y < m_height;
+}
+
+void Field::initField()
+{
+    m_fieldStore = new FieldCell[m_width * m_height + 1];
+    m_endPtr = m_fieldStore + (m_width * m_height);
+    int cellCounter = 0;
+    for (auto *cell = m_fieldStore; cell != m_endPtr; ++cell, cellCounter++){
+        cell->setCoords(IntegerVector(
+                            cellCounter % m_width,
+                            cellCounter / m_width));
+    }
 }
 
 size_t Field::height() const

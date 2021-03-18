@@ -17,28 +17,28 @@ public:
     Field& operator=(Field&& ) = delete;
 
     void resize(size_t width, size_t height);
+    size_t width() const;
+    size_t height() const;
 
-    FieldCell& operator()(size_t row, size_t column);
-    FieldCell& operator()(const IntegerVector &coords);
-    const FieldCell &operator()(size_t x, size_t y) const;
+    IntegerVector fixCoorsByFieldBounds(const IntegerVector &v); // fit coords to field bounds
+    IntegerVector size() const;
+
 
     void add(const IntegerVector &coords, BaseObject *o);
     void remove(BaseObject * o);
     void move(const IntegerVector &toCoords, BaseObject *o);
 
-    IntegerVector fixSize(const IntegerVector &v);
-
-    IntegerVector size() const;
 
     bool inBounds(const IntegerVector &v) const;
 
-    size_t width() const;
-
-    size_t height() const;
+    FieldCell& operator()(size_t row, size_t column);
+    FieldCell& operator()(const IntegerVector &coords);
+    const FieldCell &operator()(size_t x, size_t y) const;
 
 private:
     bool checkDimension(size_t width, size_t height);
     bool checkBounds(size_t row, size_t column);
+    void initField();
 
 private:
     FieldCell *m_fieldStore;

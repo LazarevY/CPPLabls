@@ -85,11 +85,6 @@ bool Logic::isGameOver()
     return !(m_harvestCount && getAll<Mole>().size());
 }
 
-bool Logic::isWin()
-{
-    return !getAll<Mole>().size();
-}
-
 void Logic::update()
 {
     for (auto c: getAll<Cottager>())
@@ -105,12 +100,12 @@ void Logic::update()
 
 IntegerVector Logic::fixCoords(const IntegerVector &coords)
 {
-    return m_field->fixSize(coords);
+    return m_field->fixCoorsByFieldBounds(coords);
 }
 
 void Logic::processObject(BaseObject *o)
 {
-    for (auto handler: m_handlersMap.values(typeid(o).hash_code()))
+    for (auto handler: m_handlersMap.values(typeid(*o).hash_code()))
         handler->process(o);
 }
 

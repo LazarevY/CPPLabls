@@ -9,6 +9,7 @@ public:
     GlobalContext();
 
     void reportFatal(const QString &msg);
+    void reportError(const QString &msg);
 
     static GlobalContext *globalInstance();
 

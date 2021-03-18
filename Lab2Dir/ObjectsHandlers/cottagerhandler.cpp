@@ -10,7 +10,8 @@ CottagerHandler::CottagerHandler(Logic *logic) : m_logic(logic)
 void CottagerHandler::processObject(Cottager *o)
 {
     if (checkMoles(o)){
-    }else {
+    }
+    else {
         Mole *nearest = m_logic->findNearestObject<Mole>(o->position(),
                                                          [](Mole *m)
         {return m->state() == Mole::State::OnGround;});
