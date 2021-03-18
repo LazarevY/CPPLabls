@@ -7,6 +7,7 @@ class BaseObjectHandler
 {
 public:
     BaseObjectHandler();
+    virtual ~BaseObjectHandler();
 
     virtual void process(BaseObject *o) = 0;
 

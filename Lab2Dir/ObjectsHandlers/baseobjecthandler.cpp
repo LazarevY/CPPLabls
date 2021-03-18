@@ -4,3 +4,8 @@ BaseObjectHandler::BaseObjectHandler()
 {
 
 }
+
+BaseObjectHandler::~BaseObjectHandler()
+{
+
+}
