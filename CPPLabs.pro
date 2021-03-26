@@ -14,7 +14,7 @@ SOURCES += \
         main.cpp
 
 
-include($$PWD/Lab2Dir/Lab2.pri)
+include($$PWD/Lab3Dir/Lab3.pri)
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
