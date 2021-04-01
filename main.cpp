@@ -17,5 +17,6 @@ int main(int argc, char *argv[])
     map.insert(2, 't');
 
     std::cout << map.value(1) << std::endl;
+    std::cout << map.value(2) << std::endl;
 }
 
