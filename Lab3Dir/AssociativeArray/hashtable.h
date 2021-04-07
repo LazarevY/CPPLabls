@@ -85,19 +85,24 @@ public:
 
   };
 
+
   iterator insert(const Key &key,  const Value &value);
   bool contains(const Key &key) const;
   iterator remove(const Key &key);
   Value value(const Key &key);
+  Value valueOrDefault(const Key &key, const Value &value = Value());
+
+  Value &operator[](const Key &key);
+  Value operator[](const Key &key) const;
 
 private:
   void init(int size);
-  iterator _insert(const Key &key, const Value &value, int hash);
+  Node *_insert(const Key &key, const Value &value, int hash);
   void resize(int newSize);
   void rehash();
   void erase();
   void clearBucket();
-  Node *nodeFor(const Key &key);
+  Node *nodeFor(const Key &key) const;
   Node **bucketEnd();
   Node **bucketBegin();
   QVector<iterator> allPairs();
@@ -123,7 +128,7 @@ const typename HashTable<Key, Value>::Node HashTable<Key, Value>::Node::defaultN
 template<typename Key, typename Value>
 inline typename HashTable<Key, Value>::iterator HashTable<Key, Value>::insert(const Key &key, const Value &value)
 {
-  return _insert(key, value, hashOf(key));
+  return iterator(*_insert(key, value, hashOf(key)));
 }
 
 template<typename Key, typename Value>
@@ -174,6 +179,31 @@ Value HashTable<Key, Value>::value(const Key &key)
 }
 
 template<typename Key, typename Value>
+Value HashTable<Key, Value>::valueOrDefault(const Key &key, const Value &value)
+{
+  Node *n = nodeFor(key);
+
+  return n? n->value : value;
+}
+
+template<typename Key, typename Value>
+Value &HashTable<Key, Value>::operator[](const Key &key)
+{
+  Node *n = nodeFor(key);
+
+  if (!n)
+    n = _insert(key, Value(), hashOf(key));
+
+  return n->value;
+}
+
+template<typename Key, typename Value>
+Value HashTable<Key, Value>::operator[](const Key &key) const
+{
+  return value(key);
+}
+
+template<typename Key, typename Value>
 void HashTable<Key, Value>::init(int size)
 {
   m_bucket = new Node*[size + 1]();
@@ -181,7 +211,7 @@ void HashTable<Key, Value>::init(int size)
 }
 
 template<typename Key, typename Value>
-inline typename HashTable<Key, Value>::iterator HashTable<Key, Value>::_insert(const Key &key, const Value &value, int hash)
+inline typename HashTable<Key, Value>::Node *HashTable<Key, Value>::_insert(const Key &key, const Value &value, int hash)
 {
   if (isOverhead())
     resize(m_bucketSize * 2);
@@ -189,16 +219,13 @@ inline typename HashTable<Key, Value>::iterator HashTable<Key, Value>::_insert(c
   int index =  hash % m_bucketSize;
   Node *n = m_bucket[index];
 
+  bool isFindEqual = false;
   if (!n){
       n = new Node(hash, key, value, nullptr);
       m_bucket[index] = n;
-      auto f = m_bucket[index];
-      auto t = f;
-      qDebug() << "_ins key " << key << " value " << value << "to index " << index << "hash = " << hash;
     }
   else{
       Node *iter = n;
-      bool isFindEqual = false;
       auto prev = iter;
       while (iter) {
           if (iter->key == key){
@@ -210,14 +237,16 @@ inline typename HashTable<Key, Value>::iterator HashTable<Key, Value>::_insert(c
           iter = iter->next;
         }
       if (!isFindEqual){
-          prev->next = new Node(hash, key, value, nullptr);
-          //qDebug() << "_ins key " << key << " value " << value << "to index " << index << "after key" << prev->key << "hash = " << hash;
+          n = new Node(hash, key, value, nullptr);
+          prev->next = n;
+
         }
     }
 
-  m_filled++;
+  if (!isFindEqual)
+    m_filled++;
 
-  return iterator(*n);
+  return n;
 }
 
 template<typename Key, typename Value>
@@ -274,7 +303,7 @@ void HashTable<Key, Value>::clearBucket()
 }
 
 template<typename Key, typename Value>
-typename HashTable<Key, Value>::Node *HashTable<Key, Value>::nodeFor(const Key &key)
+typename HashTable<Key, Value>::Node *HashTable<Key, Value>::nodeFor(const Key &key) const
 {
   int hash = hashOf(key);
 
@@ -334,6 +363,7 @@ bool HashTable<Key, Value>::isOverhead() const
 {
   return fillFactor() > FILL_FACTOR;
 }
+
 
 
 

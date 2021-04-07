@@ -1,5 +1,6 @@
 #include "AssociativeArray/hashtable.h"
 #include <iostream>
+#include <QHash>
 template<>
 inline int hashOf<int>(const int & key){
     int x = key;
@@ -13,23 +14,35 @@ int main(int argc, char *argv[])
 {
 
     HashTable<int, char> map;
-    map.insert(1, '1');
-    map.insert(2, '2');
-    map.insert(3, '3');
-    map.insert(4, '4');
-    map.insert(5, '5');
-    map.insert(5, '6');
+    map[1] =  '1';
+    map[2] =  '2';
+    map[3] =  '3';
+    map[4] =  '4';
+    map[5] =  '5';
 
-    std::cout << map.value(1) << std::endl;
-    std::cout << map.value(2) << std::endl;
-    std::cout << map.value(3) << std::endl;
-    std::cout << map.value(4) << std::endl;
-    std::cout << map.value(5) << std::endl;
+    std::cout << map[1] << std::endl;
+    std::cout << map[2] << std::endl;
+    std::cout << map[3] << std::endl;
+    std::cout << map[4] << std::endl;
+    std::cout << map[5] << std::endl;
+
     map.remove(2);
-    std::cout << map.value(1) << std::endl;
-    std::cout << map.value(5) << std::endl;
-    std::cout << map.value(4) << std::endl;
-    std::cout << map.value(3) << std::endl;
+    std::cout << std::endl;
+    map[2] = 'a';
+
+    std::cout << map[1] << std::endl;
+    std::cout << map[2] << std::endl;
+    std::cout << map[3] << std::endl;
+    std::cout << map[4] << std::endl;
+    std::cout << map[5] << std::endl;
+
+    std::cout << map.contains(1) << std::endl;
+    std::cout << map.contains(2) << std::endl;
+    std::cout << map.contains(3) << std::endl;
+    std::cout << map.contains(4) << std::endl;
+    std::cout << map.contains(5) << std::endl;
+    std::cout << map.contains(6) << std::endl;
+    std::cout << map.contains(1000) << std::endl;
 
 }
 
