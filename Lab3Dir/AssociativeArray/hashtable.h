@@ -21,7 +21,7 @@ public:
     m_filled(0)
   {
     init(m_bucketSize);
-    endNode = new Node();
+    m_endNode = Node();
   }
 
   class iterator;
@@ -43,12 +43,9 @@ public:
       value(value_),
       iterNext(iterNext_),
       next(next_){}
-    friend class iterator;
-    friend class HashTable;
 
-    static const Node defaultNode;
+    static Node defaultNode;
 
-  private:
     int hash;
     Key key;
     Value value;
@@ -62,7 +59,7 @@ public:
 
     iterator(){}
 
-    iterator(const Node *n) : node(n){
+    iterator(Node *n) : node(n){
 
     }
 
@@ -97,6 +94,23 @@ public:
 
   };
 
+  class keep{
+  public:
+
+      keep(): key(Key()), value(Value()), hash(-1){
+
+      }
+
+      keep(Node * n) : key(n->key), value(n->value), hash(n->hash)
+      {
+
+      }
+
+      Key key;
+      Value value;
+      int hash;
+
+  };
 
   iterator insert(const Key &key,  const Value &value);
   bool contains(const Key &key) const;
@@ -117,7 +131,9 @@ private:
   Node *nodeFor(const Key &key) const;
   Node **bucketEnd();
   Node **bucketBegin();
-  QVector<iterator> allPairs();
+  QVector<keep> allPairs();
+
+  void linkNextNode(Node *curr, Node *next);
 
   double fillFactor() const;
   bool isOverhead() const;
@@ -128,14 +144,14 @@ private:
   int m_bucketSize;
   int m_filled;
   Node **m_bucket;
-  const Node *endNode;
+  Node m_endNode = Node(0, Key(), Value(), nullptr);
   static constexpr double FILL_FACTOR = 0.75;
 
 
 };
 
 template<typename Key, typename Value>
-const typename HashTable<Key, Value>::Node HashTable<Key, Value>::Node::defaultNode = Node();
+typename HashTable<Key, Value>::Node HashTable<Key, Value>::Node::defaultNode = Node();
 
 
 template<typename Key, typename Value>
@@ -156,12 +172,12 @@ typename HashTable<Key, Value>::iterator HashTable<Key, Value>::remove(const Key
   Node *n = nodeFor(key);
 
   if (!n)
-    return iterator(Node::defaultNode);
+    return iterator(&Node::defaultNode);
   int index = n->hash % m_bucketSize;
 
-  Node *prev = n;
+  Node *prev = n->next;
   Node *next = prev->next;
-  iterator it(*n);
+  iterator it(n);
 
   if (!next)
     m_bucket[index] = nullptr;
@@ -173,6 +189,7 @@ typename HashTable<Key, Value>::iterator HashTable<Key, Value>::remove(const Key
         }
 
       prev->next = next->next;
+      prev->iterNext = next->iterNext;
     }
 
   delete next;
@@ -221,6 +238,15 @@ void HashTable<Key, Value>::init(int size)
 {
   m_bucket = new Node*[size + 1]();
   m_bucketSize = size;
+
+  for (int ind = 0; ind < size; ++ind)
+      m_bucket[ind] = new Node();
+  m_bucket[size] = &m_endNode;
+
+  for (int ind = 0; ind < size; ++ind)
+      m_bucket[ind]->iterNext = m_bucket[ind + 1];
+
+
 }
 
 template<typename Key, typename Value>
@@ -231,11 +257,12 @@ inline typename HashTable<Key, Value>::Node *HashTable<Key, Value>::_insert(cons
 
   int index =  hash % m_bucketSize;
   Node *n = m_bucket[index];
+  n = n->next;
 
   bool isFindEqual = false;
   if (!n){
       n = new Node(hash, key, value, nullptr);
-      m_bucket[index] = n;
+      linkNextNode(m_bucket[index], n);
     }
   else{
       Node *iter = n;
@@ -251,7 +278,7 @@ inline typename HashTable<Key, Value>::Node *HashTable<Key, Value>::_insert(cons
         }
       if (!isFindEqual){
           n = new Node(hash, key, value, nullptr);
-          prev->next = n;
+          linkNextNode(prev, n);
 
         }
     }
@@ -266,11 +293,11 @@ template<typename Key, typename Value>
 void HashTable<Key, Value>::resize(int newSize)
 {
   //qDebug() << "start resize table";
-  QVector<iterator> all = allPairs();
+  QVector<keep> all = allPairs();
   clearBucket();
   init(newSize);
   for (auto &it: all)
-    _insert(it.key(), it.value(), it.hash());
+    _insert(it.key, it.value, it.hash);
  // qDebug() << "table has been resized";
 
 }
@@ -311,7 +338,6 @@ void HashTable<Key, Value>::clearBucket()
       n++;
       delete deleteNode;
     }
-  delete *bucketEnd();
   m_filled = 0;
 }
 
@@ -324,7 +350,7 @@ typename HashTable<Key, Value>::Node *HashTable<Key, Value>::nodeFor(const Key &
 
   Node *head = m_bucket[index];
 
-  Node *iter = head;
+  Node *iter = head->next;
   if (!iter)
     return nullptr;
 
@@ -347,22 +373,32 @@ typename HashTable<Key, Value>::Node **HashTable<Key, Value>::bucketBegin()
 }
 
 template<typename Key, typename Value>
-QVector<typename HashTable<Key, Value>::iterator> HashTable<Key, Value>::allPairs()
+QVector<typename HashTable<Key, Value>::keep> HashTable<Key, Value>::allPairs()
 {
-  QVector<iterator> res;
+  QVector<keep> res;
   for (auto n = bucketBegin(); n != bucketEnd(); ++n){
-      if (!(*n))
+      if (!(*n)->next)
         continue;
 
       auto iter = *n;
-      res.append(iterator(*iter));
+      iter = iter->next;
+      res.append(keep(iter));
       iter = iter->next;
       while (iter){
-          res.append(iterator(*iter));
+          res.append(keep(iter));
           iter = iter->next;
         }
     }
   return res;
+}
+
+template<typename Key, typename Value>
+void HashTable<Key, Value>::linkNextNode(HashTable::Node *curr, HashTable::Node *next)
+{
+    next->next = curr->next;
+    next->iterNext = curr->iterNext;
+    curr->next = next;
+    curr->iterNext = next;
 }
 
 template<typename Key, typename Value>

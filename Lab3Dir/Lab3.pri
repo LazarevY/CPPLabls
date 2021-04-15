@@ -6,12 +6,11 @@ INCLUDEPATH *= $$clean_path($$PWD/../)
 
 
 include($$PWD/AssociativeArray/AssociativeArray.pri)
-include($$PWD/CLIUtils/CLIUtils.pri)
 
-HEADERS += \
-    $$PWD/hashtablecli.h
+#HEADERS += \
+#    $$PWD/hashtablecli.h
 
-SOURCES += \
-    $$PWD/hashtablecli.cpp
+#SOURCES += \
+#    $$PWD/hashtablecli.cpp
 }
 
