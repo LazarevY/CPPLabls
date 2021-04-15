@@ -21,6 +21,7 @@ public:
     m_filled(0)
   {
     init(m_bucketSize);
+    endNode = new Node();
   }
 
   class iterator;
@@ -35,10 +36,12 @@ public:
     Node(int hash_,
          const Key& key_,
          const Value &value_,
-         Node *next_ = nullptr) :
+         Node *iterNext_,
+        Node *next_ = nullptr) :
       hash(hash_),
       key(key_),
       value(value_),
+      iterNext(iterNext_),
       next(next_){}
     friend class iterator;
     friend class HashTable;
@@ -50,7 +53,7 @@ public:
     Key key;
     Value value;
     Node *next;
-
+    Node *iterNext;
   };
 
   class iterator{
@@ -59,29 +62,38 @@ public:
 
     iterator(){}
 
-    iterator(const Node &n) : m_key(n.key), m_value(n.value), m_hash(n.hash){
+    iterator(const Node *n) : node(n){
 
+    }
+
+    iterator &operator++(){
+        node = node->iterNext;
+        return *this;
+    }
+
+    iterator operator++(int){
+        auto it = *this;
+        node = node->iterNext;
+        return it;
     }
 
 
     Key key(){
-      return m_key;
+      return node->key;
     }
 
     Value value(){
-      return m_value;
+      return node->value;
     }
 
     int hash(){
-      return m_hash;
+      return node->hash;
     }
 
     friend class HashTable;
 
   private:
-    Key m_key;
-    Value m_value;
-    int m_hash;
+    Node * node;
 
   };
 
@@ -116,6 +128,7 @@ private:
   int m_bucketSize;
   int m_filled;
   Node **m_bucket;
+  const Node *endNode;
   static constexpr double FILL_FACTOR = 0.75;
 
 
