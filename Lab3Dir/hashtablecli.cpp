@@ -7,7 +7,9 @@ HashTableCLI::HashTableCLI()
 
 void HashTableCLI::run()
 {
-
+    while (m_menuCode){
+        showMenu();
+    }
 }
 
 void HashTableCLI::addIntValue()
@@ -54,20 +56,69 @@ void HashTableCLI::removeIntKey()
 {
     int key = CLIUtils::getIntFromConsole("Input int key: ");
     m_intMap.remove(key);
+    qDebug().noquote() << QString("Passed");
 }
 
-void HashTableCLI::removeValueKey()
+void HashTableCLI::removeStringKey()
 {
     QString str = CLIUtils::getStringFromConsole("Input string key: ");
     m_stringMap.remove(str);
+    qDebug().noquote() << QString("Passed");
 }
 
 void HashTableCLI::viewAllStrings()
 {
-
+    qDebug().noquote() << QString("Map <int, string> contains next items:");
+    for (auto it = m_intMap.begin(); it != m_intMap.end(); ++it)
+        std::cout << "Key - " << it.key() << " value - " << it.value() << std::endl;
+    qDebug() << "";
+    qDebug().noquote() << QString("End of map");
 }
 
 void HashTableCLI::viewAllInts()
 {
+    qDebug().noquote() << QString("Map <string, int> contains next items:");
+    for (auto it = m_stringMap.begin(); it != m_stringMap.end(); ++it)
+        std::cout << "Key - " << it.key() << " value - " << it.value() << std::endl;
+    qDebug() << "";
+    qDebug().noquote() << QString("End of map");
+}
+
+void HashTableCLI::showMenu()
+{
+    qDebug() << "";
+    m_menuCode = CLIUtils::getBoundedFromConsole(0, 6, "Enter action code\n"
+                                                       "0. Exit\n"
+                                                       "1. Add int, string pair\n"
+                                                       "2. Add string, int pair\n"
+                                                       "3. Remove int, string pair\n"
+                                                       "4. Remove string, int pair\n"
+                                                       "5. Show int, string map\n"
+                                                       "6. Show string, int map\n"
+                                                       "Code: ");
+    qDebug() << "";
+
+    switch (m_menuCode) {
+    case 0:
+        return;
+    case 1:
+        addStringValue();
+        break;
+    case 2:
+        addIntValue();
+        break;
+    case 3:
+        removeIntKey();
+        break;
+    case 4:
+        removeStringKey();
+        break;
+    case 5:
+        viewAllStrings();
+        break;
+    case 6:
+        viewAllInts();
+        break;
+    }
 
 }

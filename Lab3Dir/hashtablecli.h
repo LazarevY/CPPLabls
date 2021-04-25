@@ -6,6 +6,25 @@
 #include "AssociativeArray/hashtable.h"
 #include "CLIUtils/cliutils.h"
 
+template<>
+inline int hashOf<int>(const int & key){
+    int x = key;
+    x = ((x >> 16) ^ x) * 0x45d9f3b;
+    x = ((x >> 16) ^ x) * 0x45d9f3b;
+    x = (x >> 16) ^ x;
+    return x;
+}
+
+template<>
+inline int hashOf<QString>(const QString & key){
+    int hash = 5381;
+
+    for (auto it :key.toStdString())
+        hash = ((hash << 5) + hash) + (uchar)it; /* hash * 33 + c */
+
+    return hash;
+}
+
 
 class HashTableCLI
 {
@@ -21,14 +40,17 @@ public:
     void getIntValue();
 
     void removeIntKey();
-    void removeValueKey();
+    void removeStringKey();
 
     void viewAllStrings();
     void viewAllInts();
 
+    void showMenu();
+
 private:
     HashTable<QString, int> m_stringMap;
     HashTable<int, QString> m_intMap;
+    int m_menuCode = 1;
 };
 
 #endif // HASHTABLECLI_H

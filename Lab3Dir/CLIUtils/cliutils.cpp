@@ -48,3 +48,20 @@ QString CLIUtils::getStringFromConsole(const QString &msg)
 
     return QString(str.c_str());
 }
+
+char CLIUtils::getCharFromConsole(const QSet<char> &right, const QString &msg)
+{
+    char val;
+
+    std::cout << msg;
+    std::cin >> val;
+
+    while (std::cin.fail() || !(right.empty() || right.contains(val))) {
+        std::cin.clear();
+        std::cin.ignore();
+        std::cout << "Error. " << msg;
+        std::cin >> val;
+    }
+
+    return val;
+}

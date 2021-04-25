@@ -2,6 +2,7 @@
 #define CLIUTILS_H
 
 #include <QString>
+#include <QSet>
 #include <iostream>
 #include <string>
 
@@ -18,7 +19,7 @@ int getBoundedFromConsole(int min, int max, const QString &msg);
 
 QString getStringFromConsole(const QString &msg);
 
-
+char getCharFromConsole(const QSet<char> &right, const QString &msg);
 
 }
 #endif // CLIUTILS_H
