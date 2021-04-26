@@ -34,7 +34,7 @@ void HashTableCLI::getStringValue()
 {
     int key = CLIUtils::getIntFromConsole("Input int key: ");
     if (m_intMap.contains(key)){
-        qDebug().noquote() << QString("By string key '%1' founded value %2").arg(key).arg(m_intMap[key]);
+        qDebug().noquote() << QString("By int key '%1' founded value '%2'").arg(key).arg(m_intMap[key]);
     }
     else {
         qDebug().noquote() << QString("No founded by key '%1'").arg(key);
@@ -45,7 +45,7 @@ void HashTableCLI::getIntValue()
 {
     QString str = CLIUtils::getStringFromConsole("Input string key: ");
     if (m_stringMap.contains(str)){
-        qDebug().noquote() << QString("By string key '%1' founded value %2").arg(str).arg(m_stringMap[str]);
+        qDebug().noquote() << QString("By string key '%1' founded value '%2'").arg(str).arg(m_stringMap[str]);
     }
     else {
         qDebug().noquote() << QString("No founded by key '%1'").arg(str);
@@ -87,14 +87,16 @@ void HashTableCLI::viewAllInts()
 void HashTableCLI::showMenu()
 {
     qDebug() << "";
-    m_menuCode = CLIUtils::getBoundedFromConsole(0, 6, "Enter action code\n"
+    m_menuCode = CLIUtils::getBoundedFromConsole(0, 8, "Enter action code\n"
                                                        "0. Exit\n"
                                                        "1. Add int, string pair\n"
                                                        "2. Add string, int pair\n"
                                                        "3. Remove int, string pair\n"
                                                        "4. Remove string, int pair\n"
-                                                       "5. Show int, string map\n"
-                                                       "6. Show string, int map\n"
+                                                       "5. Get string by int key\n"
+                                                       "6. Get int by string key\n"
+                                                       "7. Show int, string map\n"
+                                                       "8. Show string, int map\n"
                                                        "Code: ");
     qDebug() << "";
 
@@ -114,9 +116,15 @@ void HashTableCLI::showMenu()
         removeStringKey();
         break;
     case 5:
-        viewAllStrings();
+        getStringValue();
         break;
     case 6:
+        getIntValue();
+        break;
+    case 7:
+        viewAllStrings();
+        break;
+    case 8:
         viewAllInts();
         break;
     }

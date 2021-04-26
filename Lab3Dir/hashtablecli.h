@@ -8,7 +8,7 @@
 
 template<>
 inline int hashOf<int>(const int & key){
-    int x = key;
+    unsigned x = key;
     x = ((x >> 16) ^ x) * 0x45d9f3b;
     x = ((x >> 16) ^ x) * 0x45d9f3b;
     x = (x >> 16) ^ x;
@@ -17,7 +17,7 @@ inline int hashOf<int>(const int & key){
 
 template<>
 inline int hashOf<QString>(const QString & key){
-    int hash = 5381;
+    unsigned hash = 5381;
 
     for (auto it :key.toStdString())
         hash = ((hash << 5) + hash) + (uchar)it; /* hash * 33 + c */
