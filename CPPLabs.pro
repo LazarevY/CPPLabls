@@ -1,8 +1,7 @@
-QT -= gui
-QT += testlib
+QT += testlib gui
 
-CONFIG += c++17 console
-CONFIG -= app_bundle
+CONFIG += c++17
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 QMAKE_CXXFLAGS += -std=c++17
 
@@ -14,7 +13,7 @@ SOURCES += \
         main.cpp
 
 
-include($$PWD/Lab3Dir/Lab3.pri)
+include($$PWD/Lab4Dir/Lab4.pri)
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
