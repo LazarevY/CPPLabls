@@ -16,8 +16,10 @@ SOURCES += \
 }
 
 HEADERS += \
-    $$PWD/caselistwidget.h
+    $$PWD/caselistwidget.h \
+    $$PWD/mdisubwindoweventfilter.h
 
 SOURCES += \
-    $$PWD/caselistwidget.cpp
+    $$PWD/caselistwidget.cpp \
+    $$PWD/mdisubwindoweventfilter.cpp
 

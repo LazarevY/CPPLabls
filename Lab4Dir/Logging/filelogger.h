@@ -20,6 +20,7 @@ private:
     QFile m_file;
     QString m_fileName;
     QMap<Logger::LogMessageType, bool> m_typesMap;
+    const QString DATA_FORMAT = "dd.MM.yy hh:mm:ss";
 };
 
 #endif // FILELOGGER_H

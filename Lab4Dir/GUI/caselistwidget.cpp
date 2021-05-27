@@ -6,7 +6,7 @@ CaseListWidget::CaseListWidget(const CaseList &list, const QString name, QWidget
     m_name(name)
 {
     m_edit = new QTextEdit(this);
-    //m_edit->setReadOnly(true);
+    m_edit->setReadOnly(true);
     m_layout = new QGridLayout(this);
     setLayout(m_layout);
     m_layout->addWidget(m_edit);
@@ -46,4 +46,9 @@ void CaseListWidget::updateText()
 
     m_edit->setText(str);
 
+}
+
+void CaseListWidget::callBeforeClose()
+{
+    emit beforeClose(m_name);
 }

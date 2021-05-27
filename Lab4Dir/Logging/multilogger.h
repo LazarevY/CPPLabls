@@ -1,20 +1,24 @@
 #ifndef MULTILOGGER_H
 #define MULTILOGGER_H
 
-#include <QMap>
-#include <QVector>
 #include "logger.h"
 
+#include <QSet>
 
-class MultiLogger : public Logger
+class MultiLogger: public Logger
 {
 public:
     MultiLogger();
+
     void log(const QString &msg, LogMessageType type) override;
-    void subscribeLogger(LogMessageType type, Logger *logger);
+
+    void addLogger(Logger *l);
+    void removeLogger(Logger *l);
 
 private:
-    QMap<Logger::LogMessageType, Logger*> m_loggersMap;
+    QSet<Logger *> m_loggers;
+
+
 };
 
 #endif // MULTILOGGER_H

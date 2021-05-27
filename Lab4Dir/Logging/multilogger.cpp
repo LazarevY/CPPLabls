@@ -7,11 +7,17 @@ MultiLogger::MultiLogger()
 
 void MultiLogger::log(const QString &msg, Logger::LogMessageType type)
 {
-    if (auto v = m_loggersMap.value(type, nullptr))
-        v->log(msg, type);
+    for (auto l: m_loggers)
+        if (l)
+            l->log(msg, type);
 }
 
-void MultiLogger::subscribeLogger(Logger::LogMessageType type, Logger *logger)
+void MultiLogger::addLogger(Logger *l)
 {
-   m_loggersMap[type] = logger;
+    m_loggers.insert(l);
+}
+
+void MultiLogger::removeLogger(Logger *l)
+{
+    m_loggers.remove(l);
 }

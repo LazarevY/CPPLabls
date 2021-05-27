@@ -23,6 +23,11 @@ public:
 
     void updateText();
 
+    void callBeforeClose();
+
+signals:
+    void beforeClose(QString name);
+
 private:
     QTextEdit *m_edit;
     CaseList m_list;

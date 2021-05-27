@@ -13,8 +13,12 @@ SOURCES += \
 }
 
 HEADERS += \
-    $$PWD/dataparsing.h
+    $$PWD/appexception.h \
+    $$PWD/dataparsing.h \
+    $$PWD/datawriting.h
 
 SOURCES += \
-    $$PWD/dataparsing.cpp
+    $$PWD/appexception.cpp \
+    $$PWD/dataparsing.cpp \
+    $$PWD/datawriting.cpp
 

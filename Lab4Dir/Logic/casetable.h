@@ -22,6 +22,8 @@ public:
 
     QVector<WordCases> getUnique() const;
 
+    bool isEmpty() const;
+
 private:
     void checkWordCasesCreated(const QString &word);
     void deleteCases(const QString &word);

@@ -9,6 +9,8 @@ public:
     ConsoleLogger();
 
     void log(const QString &msg, LogMessageType type) override;
+private:
+    const QString DATA_FORMAT = "dd.MM.yy hh:mm:ss";
 };
 
 #endif // CONSOLELOGGER_H

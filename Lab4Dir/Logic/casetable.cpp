@@ -61,6 +61,11 @@ QVector<WordCases> CaseTable::getUnique() const
    return cases;
 }
 
+bool CaseTable::isEmpty() const
+{
+    return m_caseTableData.isEmpty();
+}
+
 void CaseTable::checkWordCasesCreated(const QString &word)
 {
     if (!m_caseTableData.contains(word)){
