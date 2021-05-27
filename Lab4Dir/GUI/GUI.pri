@@ -15,3 +15,9 @@ SOURCES += \
 
 }
 
+HEADERS += \
+    $$PWD/caselistwidget.h
+
+SOURCES += \
+    $$PWD/caselistwidget.cpp
+

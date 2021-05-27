@@ -6,12 +6,15 @@
 #include "3rdparty/nlohmann/json.hpp"
 
 #include "Logic/casetable.h"
+#include "Logic/caselist.h"
 
 namespace DataParsing
 {
     nlohmann::json readFile(const QString &fileName);
     void fillCaseTableFromFile(CaseTable &table, const QString &fileName);
     void fillCaseTableFromJson(CaseTable &table, const nlohmann::json &json);
+    void readCaseList(CaseList &lst, const nlohmann::json &json);
+    void readCaseList(CaseList &lst, const QString &fileName);
 
 };
 
