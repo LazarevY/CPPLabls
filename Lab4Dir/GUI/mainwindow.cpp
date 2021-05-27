@@ -6,9 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->tableWidget->setRowCount(5);
     ui->tableWidget->setColumnCount(6);
-    ui->tableWidget->setItem(1,1, new QTableWidgetItem("Some Text"));
+    ui->tableWidget->setRowCount(6);
     ui->tableWidget->setHorizontalHeaderItem(0,
                                              new QTableWidgetItem("Nominative"));
     ui->tableWidget->setHorizontalHeaderItem(1,
@@ -26,4 +25,12 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::updateTable(const CaseTable &table)
+{
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setRowCount(0);
+    auto uniq = table.getUnique();
+    ui->tableWidget->setRowCount(uniq.size());
 }

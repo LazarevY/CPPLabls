@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTableWidgetItem>
+#include "Logic/casetable.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,7 +18,11 @@ public:
     ~MainWindow();
 
 private:
+    void updateTable(const CaseTable &table);
+
+private:
     Ui::MainWindow *ui;
+    QVector<QTableWidgetItem> m_tableItems;
 };
 
 #endif // MAINWINDOW_H

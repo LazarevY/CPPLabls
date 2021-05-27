@@ -3,6 +3,7 @@
 #include <QApplication>
 
 #include "GUI/mainwindow.h"
+#include "Utils/dataparsing.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,5 +15,8 @@ int main(int argc, char *argv[])
     w.show();
 
     return  a.exec();
+
+
+
 }
 

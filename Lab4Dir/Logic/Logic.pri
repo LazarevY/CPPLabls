@@ -16,3 +16,11 @@ SOURCES += \
 
 }
 
+HEADERS += \
+    $$PWD/caselist.h \
+    $$PWD/logic.h
+
+SOURCES += \
+    $$PWD/caselist.cpp \
+    $$PWD/logic.cpp
+

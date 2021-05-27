@@ -42,7 +42,7 @@ void CaseTable::expandCases(const QMap<Case, QString> &cases)
         oldCases->operator[](kv.base().key()) = kv.base().value();
 }
 
-QString CaseTable::findCase(Case case_, const QString &word)
+QString CaseTable::findCase(Case case_, const QString &word) const
 {
     if (!m_caseTableData.contains(word) || !m_caseTableData[word]->contains(case_)){
         throw NoCaseFoundException(case_, word);
@@ -52,7 +52,7 @@ QString CaseTable::findCase(Case case_, const QString &word)
 
 }
 
-QVector<WordCases> CaseTable::getUnique()
+QVector<WordCases> CaseTable::getUnique() const
 {
    auto u =  m_caseTableData.values().toSet();
    QVector<WordCases> cases;

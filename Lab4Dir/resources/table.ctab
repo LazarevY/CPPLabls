@@ -1,0 +1,20 @@
+[
+{
+"nominative"	: "1",
+"genetive"	: "2",
+"dative"	: "3",
+"accusative"	: "4",
+"creative"	: "5",
+"prepositional": "6"
+},
+
+{
+"nominative"	: "11",
+"genetive"	: "22",
+"dative"	: "33",
+"accusative"	: "44",
+"creative"	: "55",
+"prepositional": "66"
+}
+
+]

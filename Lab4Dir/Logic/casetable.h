@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMap>
 #include <QVector>
+#include <QSet>
 
 #include "case.h"
 
@@ -17,7 +18,9 @@ public:
     void addCase(Case case_, const QString &existingCase, const QString& caseWordValue);
     void setCases(const QMap<Case, QString> & cases);
     void expandCases(const QMap<Case, QString> & cases);
-    QString findCase(Case case_, const QString &word);
+    QString findCase(Case case_, const QString &word) const;
+
+    QVector<WordCases> getUnique() const;
 
 private:
     void checkWordCasesCreated(const QString &word);

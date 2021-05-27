@@ -12,3 +12,9 @@ SOURCES += \
 
 }
 
+HEADERS += \
+    $$PWD/dataparsing.h
+
+SOURCES += \
+    $$PWD/dataparsing.cpp
+
