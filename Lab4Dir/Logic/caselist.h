@@ -3,23 +3,21 @@
 
 #include "case.h"
 #include <QString>
-#include <QMap>
+#include <QVector>
 
 class CaseList
 {
 public:
     CaseList();
-    CaseList(QMap<QString, Case> casesMap);
+    CaseList(const QVector<QString> &cases);
 
-    void addCase(const QString &word, Case case_);
-    Case findCase(const QString &word);
-
+    void addCase(const QString &word);
     bool isEmpty() const;
 
-    QMap<QString, Case> casesMap() const;
+    QVector<QString> cases() const;
 
 private:
-    QMap<QString, Case> m_casesMap;
+    QVector<QString> m_cases;
 };
 
 #endif // CASELIST_H

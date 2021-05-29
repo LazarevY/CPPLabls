@@ -46,6 +46,7 @@ QString CaseTable::findCase(Case case_, const QString &word) const
 {
     if (!m_caseTableData.contains(word) || !m_caseTableData[word]->contains(case_)){
         throw NoCaseFoundException(case_, word);
+        return "";
     }
 
     return m_caseTableData[word]->operator[](case_);

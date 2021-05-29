@@ -38,10 +38,10 @@ void CaseListWidget::updateText()
 {
     QString str = "";
 
-    auto map = m_list.casesMap();
+    auto map = m_list.cases();
 
-    for (auto caseKv = map.begin(); caseKv != map.end(); ++caseKv){
-        str.append(QString("%1: %2\n").arg(caseKv.key()).arg(CaseTools::caseEnumToStr(caseKv.value())));
+    for (auto word: map){
+        str.append(QString("%1\n").arg(word));
     }
 
     m_edit->setText(str);

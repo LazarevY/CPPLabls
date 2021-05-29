@@ -1,6 +1,7 @@
 #include "dataparsing.h"
 #include <string>
 #include <QDebug>
+#include <QTextStream>
 #include "appexception.h"
 
 nlohmann::json DataParsing::readFile(const QString &fileName)
@@ -60,31 +61,19 @@ void DataParsing::fillCaseTableFromFile(CaseTable &table, const QString &fileNam
     fillCaseTableFromJson(table, readFile(fileName));
 }
 
-void DataParsing::readCaseList(CaseList &lst, const nlohmann::json &json)
-{
-    QMap<std::string, Case> cases =
-    {
-        {"nominative", Case::Nominative},
-        {"genetive", Case::Genitive},
-        {"dative", Case::Dative},
-        {"accusative", Case::Accusative},
-        {"creative", Case::Creative},
-        {"prepositional", Case::Prepositional},
-    };
-
-    for (auto it = json.begin(); it != json.end(); ++it){
-        nlohmann::json v = it.value();
-        for (auto it2 = v.begin(); it2 != v.end(); ++it2){
-            auto str = std::string(it2.key().data());
-            if (!cases.contains(str))
-                continue;
-            lst.addCase(QString(it2.value().get<std::string>().data()),
-                        cases[str]);
-        }
-    }
-}
 
 void DataParsing::readCaseList(CaseList &lst, const QString &fileName)
 {
-    readCaseList(lst, readFile(fileName));
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)){
+        throw AppException(QString("Can't open ") + fileName);
+    }
+
+    QTextStream in(&file);
+
+    while (!in.atEnd()) {
+        auto word = in.readLine().trimmed();
+        lst.addCase(word);
+    }
+
 }

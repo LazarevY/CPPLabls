@@ -24,18 +24,17 @@ QString Logic::findCase(Case case_, const QString &word)
 
 QVector<QString> Logic::allWordsCase(const CaseList &lst, Case case_)
 {
-    auto map = lst.casesMap();
+    auto words = lst.cases();
 
     QVector<QString> result;
 
-    for (auto kv = map.begin(); kv != map.end(); ++kv){
+    for (auto word : words){
         try {
-            QString founded = m_caseTable.findCase(case_, kv.key());
+            QString founded = m_caseTable.findCase(case_, word);
             result.push_back(founded);
         } catch (NoCaseFoundException &e) {
             m_logger->log(
-                        QString("No found case %1 to word %2").arg(
-                            CaseTools::caseEnumToStr(e.case_())).arg(e.word()),
+                        e.msg(),
                         Logger::LogMessageType::WARNING);
         }
     }

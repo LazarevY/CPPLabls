@@ -14,19 +14,20 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    MainWindow w;
+    Logic l;
 
+    MultiLogger mainLogger;
+    l.setLogger(&mainLogger);
+    MainWindow w(l);
 
     ConsoleLogger consoleLogger;
 
     GUILogger guiLogger(w.getContexForGuoLogger());
 
-    MultiLogger mainLogger;
     mainLogger.addLogger(&consoleLogger);
     mainLogger.addLogger(&guiLogger);
 
     w.setLogger(&mainLogger);
-
     w.show();
 
     return  a.exec();

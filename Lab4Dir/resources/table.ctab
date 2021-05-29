@@ -1,20 +1,43 @@
 [
 {
-"nominative"	: "1",
-"genetive"	: "2",
-"dative"	: "3",
-"accusative"	: "4",
-"creative"	: "5",
-"prepositional": "6"
+"nominative"	: "слово",
+"genetive"	: "слова",
+"dative"	: "слову",
+"accusative"	: "слово",
+"creative"	: "словом",
+"prepositional": "слове"
 },
 
 {
-"nominative"	: "11",
-"genetive"	: "22",
-"dative"	: "33",
-"accusative"	: "44",
-"creative"	: "55",
-"prepositional": "66"
+"nominative"	: "трава",
+"genetive"	: "травы",
+"dative"	: "траве",
+"accusative"	: "траву",
+"creative"	: "травой",
+"prepositional": "траве"
+},
+{
+"nominative"	: "задача",
+"genetive"	: "задачи",
+"dative"	: "задаче",
+"accusative"	: "задачу",
+"creative"	: "задачей",
+"prepositional": "задаче"
+},
+{
+"nominative"	: "хороший",
+"genetive"	: "хорошего",
+"dative"	: "хорошему",
+"accusative"	: "хорошего",
+"creative"	: "хорошим",
+"prepositional": "хорошем"
+},
+{
+"nominative"	: "остановка",
+"genetive"	: "остановки",
+"dative"	: "отсановке",
+"prepositional": "остановке"
 }
+
 
 ]

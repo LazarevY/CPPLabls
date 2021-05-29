@@ -5,27 +5,22 @@ CaseList::CaseList()
 
 }
 
-CaseList::CaseList(QMap<QString, Case> casesMap) : m_casesMap(casesMap)
+CaseList::CaseList(const QVector<QString> &cases) : m_cases(cases)
 {
 
 }
 
-void CaseList::addCase(const QString &word, Case case_)
+void CaseList::addCase(const QString &word)
 {
-    m_casesMap[word] = case_;
-}
-
-Case CaseList::findCase(const QString &word)
-{
-    return m_casesMap[word];
+    m_cases.append(word);
 }
 
 bool CaseList::isEmpty() const
 {
-    return m_casesMap.isEmpty();
+    return m_cases.isEmpty();
 }
 
-QMap<QString, Case> CaseList::casesMap() const
+QVector<QString> CaseList::cases() const
 {
-    return m_casesMap;
+    return m_cases;
 }

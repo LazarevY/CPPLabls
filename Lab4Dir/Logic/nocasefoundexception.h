@@ -17,6 +17,12 @@ public:
 private:
     Case m_case;
     QString m_word;
+    QString m_msg;
+
+    // exception interface
+public:
+    const char *what() const noexcept override;
+    QString msg() const;
 };
 
 #endif // NOCASEFOUNDEXCEPTION_H
