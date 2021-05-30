@@ -7,6 +7,7 @@
 
 #include "Logging/consolelogger.h"
 #include "Logging/guilogger.h"
+#include "Logging/filelogger.h"
 #include "Logging/multilogger.h"
 
 int main(int argc, char *argv[])
@@ -18,14 +19,18 @@ int main(int argc, char *argv[])
 
     MultiLogger mainLogger;
     l.setLogger(&mainLogger);
-    MainWindow w(l);
 
     ConsoleLogger consoleLogger;
-
-    GUILogger guiLogger(w.getContexForGuoLogger());
-
     mainLogger.addLogger(&consoleLogger);
+
+    FileLogger fileLogger(QString("logs/log_%1.log").arg(QDateTime::currentDateTime().toString("dd_MM_yy_hh_mm_ss")));
+    mainLogger.addLogger(&fileLogger);
+
+    MainWindow w(l);
+    GUILogger guiLogger(w.getContexForGuoLogger());
     mainLogger.addLogger(&guiLogger);
+
+
 
     w.setLogger(&mainLogger);
     w.show();

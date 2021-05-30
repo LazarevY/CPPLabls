@@ -3,7 +3,7 @@
 #include <QString>
 #include <QFile>
 #include <QMap>
-
+#include <QDateTime>
 #include "Logging/logger.h"
 
 class FileLogger : public Logger
@@ -16,10 +16,14 @@ public:
     // Logger interface
 public:
     void log(const QString &msg, LogMessageType type) override;
+    bool allowAllLevels() const;
+    void setAllowAllLevels(bool allowAllLevels);
+
 private:
     QFile m_file;
     QString m_fileName;
     QMap<Logger::LogMessageType, bool> m_typesMap;
+    bool m_allowAllLevels = true;
     const QString DATA_FORMAT = "dd.MM.yy hh:mm:ss";
 };
 

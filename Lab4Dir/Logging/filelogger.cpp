@@ -19,7 +19,19 @@ void FileLogger::setLogMessageTypeEnabled(Logger::LogMessageType type, bool enab
 
 void FileLogger::log(const QString &msg, Logger::LogMessageType type)
 {
-    if (m_typesMap.value(type, false))
+    if (m_allowAllLevels || m_typesMap.value(type, false)){
         m_file.write(QString("(%1)[%2]: %3\n").arg(QDateTime::currentDateTime().toString(DATA_FORMAT))
                      .arg(QMetaEnum::fromType<Logger::LogMessageType>().valueToKey(type)).arg(msg).toStdString().data());
+        m_file.flush();
+    }
+}
+
+bool FileLogger::allowAllLevels() const
+{
+    return m_allowAllLevels;
+}
+
+void FileLogger::setAllowAllLevels(bool allowAllLevels)
+{
+    m_allowAllLevels = allowAllLevels;
 }
